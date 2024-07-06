@@ -1,5 +1,5 @@
 {
-  "name": "neoliberal-game",
+  "name": "@j-mcgregor/neoliberal-game",
   "module": "index.ts",
   "version": "0.0.1",
   "type": "module",
@@ -11,7 +11,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "path-to-regexp": "^7.0.0"
+    "path-to-regexp": "^7.0.0",
+    "@j-mcgregor/bun-express": "latest"
   },
   "scripts": {
     "dev": "bun run --watch ./src/server.ts"
