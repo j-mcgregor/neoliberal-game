@@ -1,0 +1,64 @@
+# NeoLiberal: The Game
+
+This game is like Plague Inc but with neoliberalism as the plague
+
+- Either turn-based (Civ) or continuous (Plague Inc)
+  - 1 turn = 1 week
+  - 1 second = 1 day
+- You choose the country in which to start your business
+- You can choose to compete with other companies (eg Civ) or by yourself (Plague Inc)
+- You start with some money and a small amount of profit every week
+- You choose what to do with the money
+  - Starts with just 'reinvest' to grow but eventually unlocks other options:
+    - bribe (health & safety officials)
+    - lobby (to reduce regulation)
+    - assassinate (whistleblowers)
+    - corporate army (banana republic)
+    - r&d (to create new products)
+    - donate to campaigns (puppets)
+    - union-busting / repress human rights
+    - expand abroad
+      - this is the most desired step, but you don't just need money
+        - each country is different; some will let you expand, some will require concessions, others are outright hostile
+        - You can send representatives to countries that build influence by schmoozing
+        - Other countries might have resources you want / need. Bring them into the fold by a mix of investment, bribes, coercion (private army) and allies
+- The score system
+  - Never made one of these before so it will likely take a lot of iterations
+  - Factors
+    - Finance
+    - Politics
+    - Resources
+    - Influence
+    - State of environment
+      - Climate change
+      - Biodiversity
+      - Ozone
+      - Acid Rain
+      - Oil spills
+      - Microplastics
+    - Environmental impact
+    - Logistics
+    - Expansion
+    - Products
+    - Public opinion
+- Score rules
+  - Company needs to make a net profit (X)
+  - To bribe: minimum of 100k
+  - To lobby: minimum of 1mn
+  - To donate: minimum of 50mn
+    - Pick the right candidate
+    - The more money donated, the more people might vote for them
+    - If elected you can push agendas
+  - To assassinate: range of prices, from 50k to 500k (price impacts discovery)
+  - To expand: minimum of 500mn per country
+    - Depends on other factors too
+  - Public opinion is a score that's affected by many things
+    - negative
+      - scandals
+      - failed / exposed assassinations
+      - exposed bribes
+      - environmental destruction
+    - positive
+      - political sway
+      - sales / promotions
+      - donations

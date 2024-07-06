@@ -1,0 +1,19 @@
+{
+  "name": "neoliberal-game",
+  "module": "index.ts",
+  "version": "0.0.1",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "eslint-plugin-simple-import-sort": "^12.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "path-to-regexp": "^7.0.0"
+  },
+  "scripts": {
+    "dev": "bun run --watch ./src/server.ts"
+  }
+}
