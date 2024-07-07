@@ -1,5 +1,5 @@
 import { GamesController } from "./controllers/games.controller";
-import { App } from "./app";
+import { App } from "@j-mcgregor/bun-express";
 
 const app = new App({
   port: 8080,
@@ -8,7 +8,8 @@ const app = new App({
 });
 
 // game
-app.post("/games/start", async (request, server) => {
+app.post("/games/start", async (request, server, params) => {
+  console.log("params :>> ", params);
   const body = await request.json();
   if (!body.company || !body.country) {
     return Response.json(
@@ -36,10 +37,7 @@ app.post("/games/start", async (request, server) => {
 });
 
 // print all routes
-app.routes.forEach((routes, method) => {
-  routes.forEach((handler, route) => {
-    console.log(`${method} ${route}`);
-  });
-});
+
+app.printRoutes();
 
 app.serve();
