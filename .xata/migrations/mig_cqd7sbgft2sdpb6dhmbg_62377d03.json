@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqd7sbgft2sdpb6dhmbg",
+  "parentID": "mig_cqd7s7emv1aqsgo6ap10",
+  "checksum": "1:62377d03fd668fa3a85134ca4c128f4fb7d9eaca2c82789d79f659219e75cd82",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "ocean_biodiversity",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

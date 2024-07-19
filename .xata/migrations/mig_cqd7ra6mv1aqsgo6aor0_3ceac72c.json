@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqd7ra6mv1aqsgo6aor0",
+  "parentID": "mig_cqd7qt6mv1aqsgo6aoq0",
+  "checksum": "1:3ceac72c71dc2f10be09950fc01cbe1b46ffcefe3c9e8bf7d45bc1ae9486baf0",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "environment",
+          "type": "link",
+          "link": {
+            "table": "environment"
+          }
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

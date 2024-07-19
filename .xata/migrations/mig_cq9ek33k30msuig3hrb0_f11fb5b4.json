@@ -1,0 +1,19 @@
+{
+  "id": "mig_cq9ek33k30msuig3hrb0",
+  "parentID": "mig_cq8p4bu9p00qkvdf7i90",
+  "checksum": "1:f11fb5b456a19fc67d0f830e95a35d70ab70aadc25de0b6014ac9f05592f6b00",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "starting_country",
+          "type": "link",
+          "link": {
+            "table": "country"
+          }
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

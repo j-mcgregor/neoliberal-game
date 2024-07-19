@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqd7s7emv1aqsgo6ap10",
+  "parentID": "mig_cqd7s1gft2sdpb6dhmag",
+  "checksum": "1:531799f8bc8b874d6babd955c219fe60563e596a510fff55f92cabe16f139ca4",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "deforestation",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

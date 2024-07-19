@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqd7tooft2sdpb6dhmcg",
+  "parentID": "mig_cqd7spmmv1aqsgo6ap50",
+  "checksum": "1:5c018cecd24b8e2fd87a9121fbbce90e11d381455a49a11dd371f067740119a2",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "oil_spills",
+          "type": "multiple"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

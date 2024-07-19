@@ -1,0 +1,19 @@
+{
+  "id": "mig_cq8p3ut9g9k7hqe148c0",
+  "parentID": "mig_cq8p3pbk30msuig3hjs0",
+  "checksum": "1:ae68c95be1d9f5943c6aa731c512121389c9fe1e3b79e172cbb0d5f94f175be8",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "starting_country",
+          "type": "link",
+          "link": {
+            "table": "country"
+          }
+        },
+        "table": "company"
+      }
+    }
+  ]
+}

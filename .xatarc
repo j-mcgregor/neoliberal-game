@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Jack-McGregor-s-workspace-bt62hk.eu-central-1.xata.sh/db/neoliberal-game",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}

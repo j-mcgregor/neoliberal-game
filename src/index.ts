@@ -132,7 +132,7 @@ export interface IBribe {
  */
 
 export interface IEnvironment {
-  climate_change: number; // degrees above pre-industrial average - as it rises the
+  celsius_increase: number; // degrees above pre-industrial average - as it rises the
   deforestation: number; // 0 - 100%
   ocean_biodiversity: number; // starts at 100 and goes down
   land_biodiversity: number; // starts at 100 and goes down
@@ -140,7 +140,7 @@ export interface IEnvironment {
   oil_spills: IOilSpill[];
   ozone: number; // 0 - 100% - at 10%, it accelerates land_biodiversity
   microplastics: number; // parts per million - it accelerates ocean_biodiversity
-  events: IClimateEvent[];
+  natural_disasters: INaturalDisaster[];
 }
 
 export interface IOilSpill {
@@ -149,13 +149,18 @@ export interface IOilSpill {
   exposed: true;
 }
 
-export interface IClimateEvent {
-  type: ClimateEventTypeEnum;
+export interface INaturalDisaster {
+  type: NaturalDisasterTypeEnum;
   damage: number;
   date: Date;
 }
 
-export enum ClimateEventTypeEnum {
+export enum NaturalDisasterTypeEnum {
+  EARTHQUAKE = "earthquake",
+  VOLCANO = "volcano",
+  TSUNAMI = "tsunami",
+  TORNADO = "tornado",
+  WILDFIRE = "wildfire",
   HURRICANE = "hurricane",
   FLOODING = "flooding",
   HEATWAVE = "heatwave",

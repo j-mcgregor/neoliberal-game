@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqd7shumv1aqsgo6ap30",
+  "parentID": "mig_cqd7semmv1aqsgo6ap20",
+  "checksum": "1:bb81b66b69f7fec663c8ae3696b790e6bf8d1d26fa019d436a7ff982db48277f",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "sea_level_rise",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

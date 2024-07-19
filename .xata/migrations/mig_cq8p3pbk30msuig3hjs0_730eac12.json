@@ -1,0 +1,16 @@
+{
+  "id": "mig_cq8p3pbk30msuig3hjs0",
+  "parentID": "mig_cq8p3krk30msuig3hjr0",
+  "checksum": "1:730eac123ae1c578ed0eed63a056f6b3521640870c080e4bdec66ece8e36a7fe",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "name",
+          "type": "string"
+        },
+        "table": "company"
+      }
+    }
+  ]
+}

@@ -21,6 +21,9 @@ export class Country implements ICountry {
       influence: 0,
     }
   ) {
+    if (!name) {
+      throw new Error("Country name is required");
+    }
     this.name = name;
     // default options than can be overridden
     this.gdp = options.gdp;

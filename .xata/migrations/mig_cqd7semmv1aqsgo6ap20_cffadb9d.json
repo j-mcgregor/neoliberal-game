@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqd7semmv1aqsgo6ap20",
+  "parentID": "mig_cqd7sbgft2sdpb6dhmbg",
+  "checksum": "1:cffadb9dfb1db0773aae8ce900ddd6a58fb7f49e86b3e89b1b032a1c6292ff37",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "land_biodiversity",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

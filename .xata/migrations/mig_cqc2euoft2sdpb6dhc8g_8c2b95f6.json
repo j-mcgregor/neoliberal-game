@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqc2euoft2sdpb6dhc8g",
+  "parentID": "mig_cqc2ergft2sdpb6dhc7g",
+  "checksum": "1:8c2b95f661ccb5b588f656251c83a52d0060a875308787008235a9259266e081",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "company",
+          "type": "link",
+          "link": {
+            "table": "company"
+          }
+        },
+        "table": "action"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqc2f1gft2sdpb6dhc9g",
+  "parentID": "mig_cqc2euoft2sdpb6dhc8g",
+  "checksum": "1:2f81f6f2f04bda22625bc52e4dbdaeae3bdc2c19bc39ec50f0cb14bce747326b",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "data",
+          "type": "json"
+        },
+        "table": "action"
+      }
+    }
+  ]
+}

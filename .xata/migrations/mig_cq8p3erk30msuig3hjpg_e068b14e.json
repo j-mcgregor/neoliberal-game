@@ -1,0 +1,17 @@
+{
+  "id": "mig_cq8p3erk30msuig3hjpg",
+  "parentID": "mig_cq8p38rk30msuig3hjog",
+  "checksum": "1:e068b14e722e17cbd781d01c9b113fbc94e1042476a3197a467033e49207a530",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "progress",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

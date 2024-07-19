@@ -1,0 +1,16 @@
+{
+  "id": "mig_cq8p33jk30msuig3hjmg",
+  "parentID": "mig_cq8p2re9p00qkvdf7i80",
+  "checksum": "1:48727c3ea7ea790f424a055dac9343de65f49ecb04328c7f9b6cea6652fa1385",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "turn",
+          "type": "int"
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "mig_cq9ek93k30msuig3hrc0",
+  "parentID": "mig_cq9ek33k30msuig3hrb0",
+  "checksum": "1:d44cd80244ff83bb8bddf7bdb636cdda5bf2ba15b2418f9c6f8a475bc513f28e",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "company",
+          "type": "link",
+          "link": {
+            "table": "company"
+          }
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

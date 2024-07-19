@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqd7s1gft2sdpb6dhmag",
+  "parentID": "mig_cqd7ra6mv1aqsgo6aor0",
+  "checksum": "1:33dfe543988b737508d622d26942e7a13849bbf3906a4e87cc317db11843ec42",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "celsius_increase",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

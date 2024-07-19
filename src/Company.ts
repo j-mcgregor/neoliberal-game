@@ -30,6 +30,9 @@ export class Company implements ICompany {
       score: 0,
     }
   ) {
+    if (!name) {
+      throw new Error("Company name is required");
+    }
     this.name = name;
     this.starting_country = starting_country;
 

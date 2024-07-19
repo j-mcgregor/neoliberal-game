@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqd7slumv1aqsgo6ap40",
+  "parentID": "mig_cqd7shumv1aqsgo6ap30",
+  "checksum": "1:7905c1e3e9523c0fababdc4b861fa8da96345b7b621d329e4e3a5998edb7dda5",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "ozone",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

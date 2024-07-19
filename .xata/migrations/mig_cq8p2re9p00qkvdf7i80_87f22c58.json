@@ -1,0 +1,16 @@
+{
+  "id": "mig_cq8p2re9p00qkvdf7i80",
+  "parentID": "mig_cq8p2irk30msuig3hjlg",
+  "checksum": "1:87f22c581a6658830d9d8f549b70cea991c6dcb3af7be646dd5936cd60e05208",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "gdp",
+          "type": "float"
+        },
+        "table": "country"
+      }
+    }
+  ]
+}

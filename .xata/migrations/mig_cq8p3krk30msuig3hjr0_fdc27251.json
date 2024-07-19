@@ -1,0 +1,12 @@
+{
+  "id": "mig_cq8p3krk30msuig3hjr0",
+  "parentID": "mig_cq8p3erk30msuig3hjpg",
+  "checksum": "1:fdc2725192559d0b069272ea4fcda21e323a5b1a6bf27cc9af36ed1ce733b7aa",
+  "operations": [
+    {
+      "addTable": {
+        "table": "company"
+      }
+    }
+  ]
+}

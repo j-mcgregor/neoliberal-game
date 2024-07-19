@@ -1,0 +1,16 @@
+{
+  "id": "mig_cq8p26jk30msuig3hjj0",
+  "parentID": "mig_cq8p1d69p00qkvdf7i70",
+  "checksum": "1:7333f050592e166f6a8551ab7856fe29c9870d4e7fe78b3c4d7db6e96f1c1acd",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "score_factor",
+          "type": "float"
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

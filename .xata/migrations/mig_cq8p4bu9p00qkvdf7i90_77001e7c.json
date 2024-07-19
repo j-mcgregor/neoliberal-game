@@ -1,0 +1,17 @@
+{
+  "id": "mig_cq8p4bu9p00qkvdf7i90",
+  "parentID": "mig_cq8p3ut9g9k7hqe148c0",
+  "checksum": "1:77001e7cd71af4fe28c8b24fd2ecfeb4ca73c17039920cfb34619b8483451c4d",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "company_type",
+          "type": "string",
+          "defaultValue": "manufacturing"
+        },
+        "table": "company"
+      }
+    }
+  ]
+}

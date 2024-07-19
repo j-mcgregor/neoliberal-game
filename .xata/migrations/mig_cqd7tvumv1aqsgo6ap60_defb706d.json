@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqd7tvumv1aqsgo6ap60",
+  "parentID": "mig_cqd7tooft2sdpb6dhmcg",
+  "checksum": "1:defb706da372a7337e6e00b2e61ba9359ee6ce1dc75bf64adcd2b2cdb6b962ef",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "natural_disasters",
+          "type": "multiple"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}

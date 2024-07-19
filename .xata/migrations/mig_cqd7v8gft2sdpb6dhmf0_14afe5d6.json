@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqd7v8gft2sdpb6dhmf0",
+  "parentID": "mig_cqd7v48ft2sdpb6dhme0",
+  "checksum": "1:14afe5d6affcb87eaad7343ac863d3b4b910d27474fe0a03dd455af60b52c59d",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "environment",
+          "type": "link",
+          "link": {
+            "table": "environment"
+          }
+        },
+        "table": "world"
+      }
+    }
+  ]
+}

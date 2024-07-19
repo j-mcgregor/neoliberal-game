@@ -1,0 +1,18 @@
+{
+  "id": "mig_cqc2f48ft2sdpb6dhcag",
+  "parentID": "mig_cqc2f1gft2sdpb6dhc9g",
+  "checksum": "1:2429a5c61da17d8c96656051752c1db91e554ec025d02e6fe4d8c5cca3c10eda",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "type",
+          "type": "string",
+          "notNull": true,
+          "defaultValue": "invest"
+        },
+        "table": "action"
+      }
+    }
+  ]
+}

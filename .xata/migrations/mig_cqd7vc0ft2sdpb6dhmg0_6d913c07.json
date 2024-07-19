@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqd7vc0ft2sdpb6dhmg0",
+  "parentID": "mig_cqd7v8gft2sdpb6dhmf0",
+  "checksum": "1:6d913c07b6e77c0745da8d4367281be4d8f5656ff3d4678a549728c63c554daf",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "world",
+          "type": "link",
+          "link": {
+            "table": "world"
+          }
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

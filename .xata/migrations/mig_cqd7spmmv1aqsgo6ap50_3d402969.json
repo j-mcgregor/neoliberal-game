@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqd7spmmv1aqsgo6ap50",
+  "parentID": "mig_cqd7slumv1aqsgo6ap40",
+  "checksum": "1:3d402969b17a8dbb43e89b3898b0f9f6518d324fed40ac657bd8daf4557e7e35",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "microplastics",
+          "type": "int",
+          "defaultValue": "0"
+        },
+        "table": "environment"
+      }
+    }
+  ]
+}
