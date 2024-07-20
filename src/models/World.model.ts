@@ -1,4 +1,4 @@
-import type { Repository } from "@xata.io/client";
+import type { EditableData, Identifiable, Repository } from "@xata.io/client";
 import { getXataClient, type WorldRecord } from "../xata";
 
 export class WorldModel {
@@ -8,7 +8,9 @@ export class WorldModel {
     this.#worldRecord = getXataClient().db.world;
   }
 
-  async create(world: WorldRecord) {
+  async create(
+    world: Omit<EditableData<WorldRecord>, "id"> & Partial<Identifiable>
+  ) {
     return await this.#worldRecord.create({
       environment: world.environment,
     });

@@ -1,6 +1,7 @@
 import type {
   EditableData,
   Identifiable,
+  Repository,
   TransactionOperation,
 } from "@xata.io/client";
 import type { ICompany, ICountry, IGame } from "..";
@@ -8,11 +9,26 @@ import {
   getXataClient,
   type DatabaseSchema,
   type GameRecord,
+  type WorldRecord,
   type XataClient,
 } from "../xata";
 import { v4 as uuidv4 } from "uuid";
 
 export class GameModel {
+  #gameRecord: Repository<GameRecord>;
+
+  constructor() {
+    this.#gameRecord = getXataClient().db.game;
+  }
+
+  async create(
+    game: Omit<EditableData<GameRecord>, "id"> & Partial<Identifiable>
+  ) {
+    return await this.#gameRecord.create(game);
+  }
+}
+
+export class _GameModel {
   game?: IGame;
   xata: XataClient;
   country?: ICountry;
@@ -22,11 +38,13 @@ export class GameModel {
     this.xata = getXataClient();
   }
 
-  static async init(_country: ICountry, _company: ICompany) {
+  static async init(_country: ICountry, _company: ICompany, world: string) {
     const xata = getXataClient();
     const countryId = uuidv4();
     const companyId = uuidv4();
     const gameId = uuidv4();
+
+    console.log("worldId :>> ", world);
 
     const country: TransactionOperation<DatabaseSchema, "country"> = {
       insert: {
@@ -61,6 +79,7 @@ export class GameModel {
           score_factor: 0.05,
           turn: 0,
           progress: 0,
+          world: world,
         },
       },
     };

@@ -9,10 +9,13 @@ import type { EnvironmentController } from "./controllers/environment.controller
 import type { WorldController } from "./controllers/world.controller";
 import type { EnvironmentModel } from "./models/Environment.model";
 import type { WorldModel } from "./models/World.model";
+import type { CountryModel } from "./models/Country.model";
+import type { CountriesController } from "./controllers/countries.controller";
 
 export type Models = {
   ActionModel: ActionModel;
   CompanyModel: CompanyModel;
+  CountryModel: CountryModel;
   GameModel: GameModel;
   WorldModel: WorldModel;
   EnvironmentModel: EnvironmentModel;
@@ -20,6 +23,7 @@ export type Models = {
 export type Controllers = {
   ActionsController: ActionsController;
   CompaniesController: CompaniesController;
+  CountriesController: CountriesController;
   GamesController: GamesController;
   WorldController: WorldController;
   EnvironmentController: EnvironmentController;

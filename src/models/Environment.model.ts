@@ -1,4 +1,4 @@
-import type { Repository } from "@xata.io/client";
+import type { EditableData, Identifiable, Repository } from "@xata.io/client";
 import { getXataClient, type EnvironmentRecord } from "../xata";
 
 export class EnvironmentModel {
@@ -8,7 +8,9 @@ export class EnvironmentModel {
     this.#envRecord = getXataClient().db.environment;
   }
 
-  async create(env: EnvironmentRecord) {
+  async create(
+    env: Omit<EditableData<EnvironmentRecord>, "id"> & Partial<Identifiable>
+  ) {
     return await this.#envRecord.create({
       celsius_increase: env.celsius_increase,
       deforestation: env.deforestation,

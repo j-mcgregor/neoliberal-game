@@ -20,7 +20,9 @@ export class WorldController {
     this.root = _root;
   }
 
-  async create(world: WorldRecord) {
+  async create(
+    world: Omit<EditableData<WorldRecord>, "id"> & Partial<Identifiable>
+  ) {
     return await this.root.worldModel.create(world);
   }
 
@@ -33,8 +35,6 @@ export class WorldController {
     ) {
       throw new Error("Invalid body");
     }
-
-    console.log(this.root.columns("world"));
 
     this.root.columns("world")?.forEach((column) => {
       if (!(column.name in body) && !column.defaultValue) {

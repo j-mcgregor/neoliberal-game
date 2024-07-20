@@ -11,6 +11,10 @@ import { EnvironmentController } from "./controllers/environment.controller";
 import { WorldModel } from "./models/World.model";
 import { EnvironmentModel } from "./models/Environment.model";
 import type { WorldRecord } from "./xata";
+import { GamesController } from "./controllers/games.controller";
+import { GameModel } from "./models/Game.model";
+import { CountriesController } from "./controllers/countries.controller";
+import { CountryModel } from "./models/Country.model";
 
 const app = new App({
   port: 8080,
@@ -19,41 +23,53 @@ const app = new App({
 });
 
 const root = new Root({
-  models: [WorldModel, EnvironmentModel, ActionModel, CompanyModel],
+  models: [
+    WorldModel,
+    EnvironmentModel,
+    ActionModel,
+    CompanyModel,
+    CountryModel,
+    GameModel,
+  ],
   controllers: [
     WorldController,
     EnvironmentController,
     ActionsController,
     CompaniesController,
+    CountriesController,
+    GamesController,
   ],
 });
 
 // game
 app.post("/games/start", async (request, server, params) => {
-  const body = await request.json();
+  try {
+    const body = await request.json();
 
-  if (!body.company || !body.country) {
+    if (!body.company || !body.country) {
+      return Response.json(
+        {
+          message: "Company and country are required",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const game = await root.gameController?.create(body);
+
+    return Response.json(game);
+  } catch (error) {
     return Response.json(
       {
-        message: "Company and country are required",
+        message: String(error),
       },
       {
-        status: 400,
+        status: 500,
       }
     );
   }
-
-  const company = body.company;
-  const country = body.country;
-
-  const gameController = root.getController("GamesController");
-
-  const game = await gameController?.createGame({
-    company,
-    country,
-  });
-
-  return Response.json(game);
 });
 
 app.put("/games/:id", async (request, server, params) => {
@@ -155,22 +171,4 @@ app.post("/world", async (request, server, params) => {
 
 app.printRoutes();
 
-console.log(root);
-
 app.serve();
-
-try {
-  root.environmentController.validate({
-    // celsius_increase: 0,
-    // deforestation: 0,
-    // ocean_biodiversity: 0,
-    // land_biodiversity: 0,
-    // sea_level_rise: 0,
-    // ozone: 0,
-    // microplastics: 0,
-    oil_spills: 0,
-    natural_disasters: 0,
-  });
-} catch (error) {
-  console.log(error);
-}
