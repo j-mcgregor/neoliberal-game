@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtctgft2sdpb6dht10",
+  "parentID": "mig_cqdtcepph6sceplcepv0",
+  "checksum": "1:64bf4e0c77136e0b93049de3efcc48ee9828a6aa2ae0ef75ded072ee9f42ecc1",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "s_and_p",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import type { EnvironmentRecord } from "../xata";
 import type { Root } from "../root";
+import { v4 as uuidv4 } from "uuid";
 
 export class GamesController {
   root: Root;
@@ -7,157 +8,75 @@ export class GamesController {
     this.root = _root;
   }
 
-  async create(game: {
+  async create(options: {
     starting_country: string;
     company_name: string;
     environment?: Partial<EnvironmentRecord>;
   }) {
+    const countryId = uuidv4();
+    const companyId = uuidv4();
+    const environmentId = uuidv4();
+    const worldId = uuidv4();
+    const economyId = uuidv4();
+    const gameId = uuidv4();
+
     // Country
     const countryModel = this.root.getModel("CountryModel");
-    const country = await countryModel?.create({ name: game.starting_country });
+    const country = countryModel?.migration_create({
+      id: countryId,
+      name: options.starting_country,
+    });
+
+    // Economy
+    const economyModel = this.root.getModel("EconomyModel");
+    const economy = economyModel?.migration_create({
+      id: economyId,
+    });
+
+    console.log("economy :>> ", economy);
 
     // Company
     const companyModel = this.root.getModel("CompanyModel");
-    const company = await companyModel?.create({ name: game.company_name });
+    const company = companyModel?.migration_create({
+      id: companyId,
+      name: options.company_name,
+    });
 
     // Environment
     const environmentModel = this.root.getModel("EnvironmentModel");
-    const environment = await environmentModel?.create({
-      natural_disasters: game.environment?.natural_disasters ?? [],
-      oil_spills: game.environment?.oil_spills ?? [],
+    const environment = environmentModel?.migration_create({
+      id: environmentId,
+      natural_disasters: options.environment?.natural_disasters ?? [],
+      oil_spills: options.environment?.oil_spills ?? [],
     });
 
     // World
     const worldModel = this.root.getModel("WorldModel");
-    const world = await worldModel?.create({
-      environment,
+    const world = worldModel?.migration_create({
+      id: worldId,
+      environment: environmentId,
+      economy: economyId,
     });
 
     const gameModel = this.root.getModel("GameModel");
-    return await gameModel?.create(game);
+    const game = gameModel?.migration_create({
+      id: gameId,
+      company: companyId,
+      starting_country: countryId,
+      world: worldId,
+    });
+
+    return await this.root.gameModel?.migrations_run([
+      country,
+      company,
+      economy,
+      environment,
+      world,
+      game,
+    ]);
+  }
+
+  async update(id: any, body: any) {
+    throw new Error("Method not implemented.");
   }
 }
-
-// export class _GamesController {
-//   protected model: GameModel;
-
-//   constructor() {
-//     this.model = new GameModel();
-//   }
-
-//   isValid(value: unknown): value is GameRecord {
-//     return typeof value === "object" && value !== null;
-//   }
-
-//   makeGame(game: unknown): Partial<EditableData<GameRecord>> & Identifiable {
-//     if (typeof game !== "object") {
-//       throw new Error("Game must be an object");
-//     }
-
-//     const newBody = {} as Partial<EditableData<GameRecord>> & Identifiable;
-
-//     if (this.isValid(game)) {
-//       if (game.company) {
-//         newBody.company = game.company;
-//       }
-
-//       if (game.progress) {
-//         newBody.progress = game.progress;
-//       }
-
-//       if (game.score_factor) {
-//         newBody.score_factor = game.score_factor;
-//       }
-
-//       if (game.starting_country) {
-//         newBody.starting_country = game.starting_country;
-//       }
-
-//       if (game.turn) {
-//         newBody.turn = game.turn;
-//       }
-
-//       return newBody as Partial<EditableData<GameRecord>> & Identifiable;
-//     }
-
-//     throw new Error("Game is not valid");
-//   }
-
-//   async update(id: any, body: unknown) {
-//     if (!id || !body) {
-//       throw new Error("Game ID and body are required");
-//     }
-
-//     try {
-//       const args = this.makeGame(body);
-
-//       const game = await this.model.update(args);
-
-//       return game;
-//     } catch (error) {
-//       throw new Error(String(error));
-//     }
-//   }
-
-//   async createGame(data: {
-//     company: Pick<ICompany, "name">;
-//     country: Pick<ICountry, "name">;
-//     world: string;
-//   }) {
-//     const country = new Country(data.country.name);
-//     const company = new Company(data.company.name, country);
-
-//     try {
-//       console.log("data.world :>> ", data.world);
-//       const game = await GameModel.init(country, company, data.world);
-
-//       return game;
-//     } catch (error) {
-//       throw new Error(String(error));
-//     }
-//   }
-
-//   async deleteGame(id: string) {
-//     if (!id) {
-//       throw new Error("Game ID is required");
-//     }
-
-//     try {
-//       await this.model.delete(id);
-
-//       return true;
-//     } catch (error) {
-//       throw new Error(String(error));
-//     }
-//   }
-
-//   async playRound(id?: string) {
-//     if (!id) {
-//       throw new Error("Game ID is required");
-//     }
-
-//     try {
-//       const game = await this.model.playRound({ id });
-
-//       return game;
-//     } catch (error) {
-//       throw new Error(String(error));
-//     }
-//   }
-
-//   /**
-//    * GET GAME
-//    */
-//   async getGame(id: string) {
-//     if (!id) {
-//       throw new Error("Game ID is required");
-//     }
-
-//     try {
-//       const game = await this.model.getOne(id);
-//       return game;
-//     } catch (error) {
-//       throw new Error(String(error));
-//     }
-//   }
-// }

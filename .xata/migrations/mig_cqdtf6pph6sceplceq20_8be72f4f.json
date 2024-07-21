@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtf6pph6sceplceq20",
+  "parentID": "mig_cqdtf40ft2sdpb6dhtf0",
+  "checksum": "1:8be72f4ffecf932fe4ff19951ccaab166840e7f2e6e8f562665f2907a5d975f4",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "usd_eur",
+          "type": "float",
+          "defaultValue": "1.0"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

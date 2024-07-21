@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtg0oft2sdpb6dhth0",
+  "parentID": "mig_cqdtfbgft2sdpb6dhtg0",
+  "checksum": "1:7605812a3d43719fc739e79a44cd1d498fb1121784b77599f21cc77d07d92d17",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "silver",
+          "type": "float",
+          "defaultValue": "50.0"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

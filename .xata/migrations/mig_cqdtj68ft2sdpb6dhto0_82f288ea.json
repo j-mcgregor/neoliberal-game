@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqdtj68ft2sdpb6dhto0",
+  "parentID": "mig_cqdtiooft2sdpb6dhtn0",
+  "checksum": "1:82f288ea99c32182f8567c7ad4b481d9ded08776876d08f489c6e0624fea68f8",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "economy",
+          "type": "link",
+          "link": {
+            "table": "economy"
+          }
+        },
+        "table": "world"
+      }
+    }
+  ]
+}

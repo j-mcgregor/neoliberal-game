@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtehgft2sdpb6dht90",
+  "parentID": "mig_cqdtec9ph6sceplceq10",
+  "checksum": "1:4546ded83f09627a8a807c61d6ee72263f531db2a91624965bb6e85ded2b120a",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "bitcoin",
+          "type": "int",
+          "defaultValue": "10000"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

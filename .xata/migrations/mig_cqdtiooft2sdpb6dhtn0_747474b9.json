@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtiooft2sdpb6dhtn0",
+  "parentID": "mig_cqdtilmmv1aqsgo6arjg",
+  "checksum": "1:747474b9754ac084875fcddc1baf390a2c1bf7cfb7dab3cb134f479e69d06982",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "gbp_eur",
+          "type": "float",
+          "defaultValue": "1.0"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

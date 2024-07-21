@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtifoft2sdpb6dhtl0",
+  "parentID": "mig_cqdticemv1aqsgo6arig",
+  "checksum": "1:bcf4f08ccea0f4ee26a8614f4d782b9fe91c126f6e576528d3d7fc8c54cf6245",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "inflation",
+          "type": "float",
+          "defaultValue": "2"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

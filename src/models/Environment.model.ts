@@ -1,5 +1,14 @@
-import type { EditableData, Identifiable, Repository } from "@xata.io/client";
-import { getXataClient, type EnvironmentRecord } from "../xata";
+import type {
+  EditableData,
+  Identifiable,
+  Repository,
+  TransactionOperation,
+} from "@xata.io/client";
+import {
+  getXataClient,
+  type DatabaseSchema,
+  type EnvironmentRecord,
+} from "../xata";
 
 export class EnvironmentModel {
   #envRecord: Repository<EnvironmentRecord>;
@@ -22,5 +31,19 @@ export class EnvironmentModel {
       oil_spills: env.oil_spills,
       natural_disasters: env.natural_disasters,
     });
+  }
+
+  migration_create(
+    environment: Omit<EditableData<EnvironmentRecord>, "id"> &
+      Partial<Identifiable>
+  ) {
+    const migration: TransactionOperation<DatabaseSchema, "environment"> = {
+      insert: {
+        table: "environment",
+        record: environment,
+      },
+    };
+
+    return migration;
   }
 }

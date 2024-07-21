@@ -1,5 +1,10 @@
-import type { EditableData, Identifiable, Repository } from "@xata.io/client";
-import { getXataClient, type WorldRecord } from "../xata";
+import type {
+  EditableData,
+  Identifiable,
+  Repository,
+  TransactionOperation,
+} from "@xata.io/client";
+import { getXataClient, type DatabaseSchema, type WorldRecord } from "../xata";
 
 export class WorldModel {
   #worldRecord: Repository<WorldRecord>;
@@ -14,5 +19,19 @@ export class WorldModel {
     return await this.#worldRecord.create({
       environment: world.environment,
     });
+  }
+
+  migration_create(
+    world: Omit<EditableData<WorldRecord>, "id"> & Partial<Identifiable>
+  ) {
+    console.log("world :>> ", world);
+    const migration: TransactionOperation<DatabaseSchema, "world"> = {
+      insert: {
+        table: "world",
+        record: world,
+      },
+    };
+
+    return migration;
   }
 }

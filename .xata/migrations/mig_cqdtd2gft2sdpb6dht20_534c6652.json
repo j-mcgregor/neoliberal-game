@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtd2gft2sdpb6dht20",
+  "parentID": "mig_cqdtctgft2sdpb6dht10",
+  "checksum": "1:534c6652c53ad5476bf9e19a067f1e09209a3407716d7a545287ae3cbbe466a5",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "ftse",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtfbgft2sdpb6dhtg0",
+  "parentID": "mig_cqdtf6pph6sceplceq20",
+  "checksum": "1:aec078aa1c037b1ed35b469340e5b33cbf965e9b74f0b3b087693531d121967e",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "gold",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

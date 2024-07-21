@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtdmgft2sdpb6dht60",
+  "parentID": "mig_cqdtdk0ft2sdpb6dht50",
+  "checksum": "1:1f95db00e7de0502b2bfb1681e9a71d90c792257c11f1067f3f74c8c41dc9fb0",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "nasdaq",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

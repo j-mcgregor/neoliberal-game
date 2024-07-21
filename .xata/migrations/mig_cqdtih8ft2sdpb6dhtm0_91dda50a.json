@@ -1,0 +1,13 @@
+{
+  "id": "mig_cqdtih8ft2sdpb6dhtm0",
+  "parentID": "mig_cqdtifoft2sdpb6dhtl0",
+  "checksum": "1:91dda50af2207ba0e16f9d49fa64f967110d0168caa063226af4bed985a013a5",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "gdp_usd",
+        "table": "economy"
+      }
+    }
+  ]
+}

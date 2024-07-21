@@ -1,0 +1,13 @@
+{
+  "id": "mig_cqdtdk0ft2sdpb6dht50",
+  "parentID": "mig_cqdtdgoft2sdpb6dht40",
+  "checksum": "1:e79fb52884707b5b585c62440bd9981fb5df96d78ccd1b58cc86113b0c283b88",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "nasdaq",
+        "table": "economy"
+      }
+    }
+  ]
+}

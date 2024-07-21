@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtdgoft2sdpb6dht40",
+  "parentID": "mig_cqdtd9gft2sdpb6dht30",
+  "checksum": "1:7cd81dd0f09a3af94f5a5317db957b7a685ab1e9d47bae42c99c6aabd19e03e9",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "dax",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

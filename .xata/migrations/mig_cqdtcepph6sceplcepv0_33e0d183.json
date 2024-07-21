@@ -1,0 +1,12 @@
+{
+  "id": "mig_cqdtcepph6sceplcepv0",
+  "parentID": "mig_cqd7vc0ft2sdpb6dhmg0",
+  "checksum": "1:33e0d183e10ecf8fb26504fdc76ba322c78befd7f81a78e4afe836d437894311",
+  "operations": [
+    {
+      "addTable": {
+        "table": "economy"
+      }
+    }
+  ]
+}

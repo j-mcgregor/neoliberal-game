@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqdtem0ft2sdpb6dhta0",
+  "parentID": "mig_cqdtehgft2sdpb6dht90",
+  "checksum": "1:49d3c2e150f783abb6304b5ee6a8ff8c2085e185f2298ceabdeae6f26057ae47",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "ethereum",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        "table": "economy"
+      }
+    }
+  ]
+}

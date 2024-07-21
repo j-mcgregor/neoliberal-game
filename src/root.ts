@@ -11,6 +11,8 @@ import type { EnvironmentModel } from "./models/Environment.model";
 import type { WorldModel } from "./models/World.model";
 import type { CountryModel } from "./models/Country.model";
 import type { CountriesController } from "./controllers/countries.controller";
+import type { EconomyModel } from "./models/Economy.model";
+import type { EconomyController } from "./controllers/economy.controller";
 
 export type Models = {
   ActionModel: ActionModel;
@@ -19,6 +21,7 @@ export type Models = {
   GameModel: GameModel;
   WorldModel: WorldModel;
   EnvironmentModel: EnvironmentModel;
+  EconomyModel: EconomyModel;
 };
 export type Controllers = {
   ActionsController: ActionsController;
@@ -27,10 +30,11 @@ export type Controllers = {
   GamesController: GamesController;
   WorldController: WorldController;
   EnvironmentController: EnvironmentController;
+  EconomyController: EconomyController;
 };
 
 export class Root {
-  protected model: XataClient;
+  model: XataClient;
 
   models: Map<keyof Models, Models[keyof Models]>;
   controllers: Map<keyof Controllers, Controllers[keyof Controllers]>;
@@ -85,6 +89,14 @@ export class Root {
     return this.getController("EnvironmentController");
   }
 
+  get countryController() {
+    return this.getController("CountriesController");
+  }
+
+  get economyController() {
+    return this.getController("EconomyController");
+  }
+
   getModel<K extends keyof Models>(key: K): Models[K] {
     return this.models.get(key) as Models[K];
   }
@@ -107,6 +119,14 @@ export class Root {
 
   get environmentModel() {
     return this.getModel("EnvironmentModel");
+  }
+
+  get countryModel() {
+    return this.getModel("CountryModel");
+  }
+
+  get economyModel() {
+    return this.getModel("EconomyModel");
   }
 
   // get xata table columns

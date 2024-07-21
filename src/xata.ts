@@ -68,8 +68,29 @@ const tables = [
     name: "world",
     columns: [
       { name: "environment", type: "link", link: { table: "environment" } },
+      { name: "economy", type: "link", link: { table: "economy" } },
     ],
     revLinks: [{ column: "world", table: "game" }],
+  },
+  {
+    name: "economy",
+    columns: [
+      { name: "s_and_p", type: "int", defaultValue: "1000" },
+      { name: "ftse", type: "int", defaultValue: "1000" },
+      { name: "dow", type: "int", defaultValue: "1000" },
+      { name: "dax", type: "int", defaultValue: "1000" },
+      { name: "nasdaq", type: "int", defaultValue: "1000" },
+      { name: "bitcoin", type: "int", defaultValue: "10000" },
+      { name: "ethereum", type: "int", defaultValue: "1000" },
+      { name: "usd_eur", type: "float", defaultValue: "1.0" },
+      { name: "gold", type: "float", defaultValue: "100" },
+      { name: "silver", type: "float", defaultValue: "50.0" },
+      { name: "gdp", type: "float", defaultValue: "1" },
+      { name: "inflation", type: "float", defaultValue: "2" },
+      { name: "gbp_usd", type: "float", defaultValue: "1.0" },
+      { name: "gbp_eur", type: "float", defaultValue: "1.0" },
+    ],
+    revLinks: [{ column: "economy", table: "world" }],
   },
 ] as const;
 
@@ -94,6 +115,9 @@ export type EnvironmentRecord = Environment & XataRecord;
 export type World = InferredTypes["world"];
 export type WorldRecord = World & XataRecord;
 
+export type Economy = InferredTypes["economy"];
+export type EconomyRecord = Economy & XataRecord;
+
 export type DatabaseSchema = {
   game: GameRecord;
   country: CountryRecord;
@@ -101,6 +125,7 @@ export type DatabaseSchema = {
   action: ActionRecord;
   environment: EnvironmentRecord;
   world: WorldRecord;
+  economy: EconomyRecord;
 };
 
 const DatabaseClient = buildClient();
