@@ -5,7 +5,7 @@ import { Root } from "../root";
 export interface GameAction {
   type: ActionTypeEnum;
   company: CompanyRecord["id"];
-  data: Record<string, any>;
+  data?: Record<string, any>;
 }
 
 export class ActionsController {

@@ -19,6 +19,8 @@ import { gameRoutes } from "./routes/games.route";
 import { companyRoutes } from "./routes/companies.route";
 import { worldRoutes } from "./routes/world.route";
 import { economyRoutes } from "./routes/economy.route";
+import { environmentRoutes } from "./routes/environment.route";
+import { rootRoutes } from "./routes/root.route";
 
 const app = new App({
   port: 8080,
@@ -47,10 +49,12 @@ const root = new Root({
   ],
 });
 
+rootRoutes(app, root);
 gameRoutes(app, root);
 companyRoutes(app, root);
 worldRoutes(app, root);
 economyRoutes(app, root);
+environmentRoutes(app, root);
 
 // print all routes
 

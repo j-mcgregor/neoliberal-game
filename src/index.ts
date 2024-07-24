@@ -275,6 +275,7 @@ export interface IAction {
 }
 
 export enum ActionTypeEnum {
+  TURN = "turn",
   // legal
   RESEARCH = "research",
   INVEST = "invest",

@@ -49,7 +49,28 @@ export function gameRoutes(app: App, root: Root) {
 
     const gameController = root.getController("GamesController");
 
-    const game = await gameController?.update(id, body);
+    const game = await gameController?.update(body);
+
+    return Response.json(game);
+  });
+
+  app.put("/games/:id/turn", async (request, server, params) => {
+    const id = params?.id;
+
+    if (!id) {
+      return Response.json(
+        {
+          message: "Game ID is required",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const gameController = root.getController("GamesController");
+
+    const game = await gameController?.turn(id);
 
     return Response.json(game);
   });

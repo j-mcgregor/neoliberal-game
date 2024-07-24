@@ -28,4 +28,30 @@ export class EnvironmentController {
 
     return body as EnvironmentRecord;
   }
+
+  async turn(id: string) {
+    const game = await this.root.model.db.game
+      .select(["score_factor"])
+      .getFirst({
+        filter: {
+          world: {
+            environment: id,
+          },
+        },
+      });
+
+    /**
+     * @todo Environment shouldn't use score_factor eventually
+     */
+    if (!game?.score_factor) {
+      throw new Error(`Game with could not be found`);
+    }
+
+    const migration = await this.root.environmentModel.turn(
+      id,
+      game.score_factor
+    );
+
+    return await this.root.migrations_run([migration]);
+  }
 }

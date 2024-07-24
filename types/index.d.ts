@@ -1,3 +1,5 @@
+import type { ActionTypeEnum } from "../src";
+
 export type IHandler = (req: Request, server: Server) => Promise<Response>;
 
 export interface IMiddlewareResponse {
@@ -16,4 +18,9 @@ export interface AddMethodProps {
   method?: Request["method"];
   path?: string;
   handler: IHandler;
+}
+
+export interface GameTurnOptions {
+  type: ActionTypeEnum;
+  data?: object;
 }

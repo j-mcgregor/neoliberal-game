@@ -31,6 +31,6 @@ export class EconomyController {
 
     const migration = await this.root.economyModel.turn(id, game.score_factor);
 
-    return await this.root.economyModel.migrations_run([migration]);
+    return await this.root.migrations_run([migration]);
   }
 }

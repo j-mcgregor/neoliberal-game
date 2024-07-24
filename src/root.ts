@@ -1,7 +1,7 @@
 import { ActionModel } from "./models/Action.model";
 import { CompanyModel } from "./models/Company.model";
 import { GameModel } from "./models/Game.model";
-import { getXataClient, type XataClient } from "./xata";
+import { getXataClient, type DatabaseSchema, type XataClient } from "./xata";
 import { ActionsController } from "./controllers/actions.controller";
 import { CompaniesController } from "./controllers/companies.controller";
 import { GamesController } from "./controllers/games.controller";
@@ -13,6 +13,7 @@ import type { CountryModel } from "./models/Country.model";
 import type { CountriesController } from "./controllers/countries.controller";
 import type { EconomyModel } from "./models/Economy.model";
 import type { EconomyController } from "./controllers/economy.controller";
+import type { TransactionOperation } from "@xata.io/client";
 
 export type Models = {
   ActionModel: ActionModel;
@@ -130,14 +131,113 @@ export class Root {
   }
 
   // get xata table columns
-  columns(table: string):
+  columns<N extends string = "">(
+    table: string
+  ):
     | Array<{
-        name: string;
+        name: N;
         type: string;
         defaultValue: string;
       }>
     | undefined {
     // @ts-ignore
     return this.model.schema.tables.find((t) => t.name === table)?.columns;
+  }
+
+  async migrations_run(
+    migrations: TransactionOperation<DatabaseSchema, keyof DatabaseSchema>[]
+  ) {
+    return await this.model.transactions.run(migrations);
+  }
+
+  calculateFactor(factor: number) {
+    const random = Math.random() / 10;
+
+    const num = random + factor;
+
+    return Number(num.toFixed(3));
+  }
+
+  async dropDatabase(
+    tables: Array<keyof DatabaseSchema> = [
+      "action",
+      "company",
+      "country",
+      "economy",
+      "environment",
+      "game",
+      "world",
+    ]
+  ) {
+    function makeDeleteAction(id: string, table: keyof DatabaseSchema) {
+      return { delete: { table, id } } as TransactionOperation<
+        DatabaseSchema,
+        keyof DatabaseSchema
+      >;
+    }
+    try {
+      const actions_migrations = tables.includes("action")
+        ? await this.model.db.action
+            .select(["id"])
+            .getAll()
+            .then((act) => act.map((a) => makeDeleteAction(a.id, "action")))
+        : [];
+
+      const companies_migrations = tables.includes("company")
+        ? await this.model.db.company
+            .select(["id"])
+            .getAll()
+            .then((act) => act.map((a) => makeDeleteAction(a.id, "company")))
+        : [];
+
+      const countries_migrations = tables.includes("country")
+        ? await this.model.db.country
+            .select(["id"])
+            .getAll()
+            .then((act) => act.map((a) => makeDeleteAction(a.id, "country")))
+        : [];
+
+      const economies_migrations = tables.includes("economy")
+        ? await this.model.db.economy
+            .select(["id"])
+            .getAll()
+            .then((act) => act.map((a) => makeDeleteAction(a.id, "economy")))
+        : [];
+
+      const environments_migrations = tables.includes("environment")
+        ? await this.model.db.environment
+            .select(["id"])
+            .getAll()
+            .then((act) =>
+              act.map((a) => makeDeleteAction(a.id, "environment"))
+            )
+        : [];
+
+      const games_migrations = tables.includes("game")
+        ? await this.model.db.game
+            .select(["id"])
+            .getAll()
+            .then((act) => act.map((a) => makeDeleteAction(a.id, "game")))
+        : [];
+
+      const worlds_migrations = tables.includes("world")
+        ? await this.model.db.world
+            .select(["id"])
+            .getAll()
+            .then((act) => act.map((a) => makeDeleteAction(a.id, "world")))
+        : [];
+
+      await this.migrations_run([
+        ...actions_migrations,
+        ...companies_migrations,
+        ...countries_migrations,
+        ...economies_migrations,
+        ...environments_migrations,
+        ...games_migrations,
+        ...worlds_migrations,
+      ]);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   }
 }

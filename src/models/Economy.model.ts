@@ -40,19 +40,6 @@ export class EconomyModel {
     return migration;
   }
 
-  /**
-   * if factor > 1, the economy will grow by 0-5% a day.
-   * if factor < 1, the economy will shrink by 0-5% a day.
-   * @param factor
-   */
-  generateUniqueFactor(factor: number) {
-    const random = Math.random() / 10;
-
-    const num = random + factor;
-
-    return Number(num.toFixed(3));
-  }
-
   async turn(id: string, factor: number) {
     const columns = this.root.columns("economy");
     const economy = await this.#economyRecord.getFirst({
@@ -64,7 +51,7 @@ export class EconomyModel {
     }
 
     const fields = Object.entries(economy).reduce((acc, [key, value]) => {
-      const bump = this.generateUniqueFactor(factor);
+      const bump = this.root.calculateFactor(factor);
       const column = columns?.find((column) => column.name === key);
 
       if (typeof value !== "number") {
@@ -93,11 +80,5 @@ export class EconomyModel {
     };
 
     return migration;
-  }
-
-  async migrations_run(
-    migrations: TransactionOperation<DatabaseSchema, keyof DatabaseSchema>[]
-  ) {
-    return await getXataClient().transactions.run(migrations);
   }
 }

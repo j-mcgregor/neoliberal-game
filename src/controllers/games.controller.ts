@@ -1,6 +1,9 @@
-import type { EnvironmentRecord } from "../xata";
+import type { EnvironmentRecord, GameRecord } from "../xata";
 import type { Root } from "../root";
 import { v4 as uuidv4 } from "uuid";
+import type { EditableData, Identifiable } from "@xata.io/client";
+import { ActionTypeEnum } from "..";
+import type { GameTurnOptions } from "../../types";
 
 export class GamesController {
   root: Root;
@@ -32,8 +35,6 @@ export class GamesController {
     const economy = economyModel?.migration_create({
       id: economyId,
     });
-
-    console.log("economy :>> ", economy);
 
     // Company
     const companyModel = this.root.getModel("CompanyModel");
@@ -76,7 +77,59 @@ export class GamesController {
     ]);
   }
 
-  async update(id: any, body: any) {
-    throw new Error("Method not implemented.");
+  async update(body: Partial<EditableData<GameRecord>> & Identifiable) {
+    return await this.root.gameModel.update({
+      ...body,
+    });
+  }
+
+  async turn(
+    id: string,
+    options: GameTurnOptions = {
+      type: ActionTypeEnum.TURN,
+    }
+  ) {
+    const game = await this.root.model.db.game
+      .select([
+        "world.economy.id",
+        "world.environment.id",
+        "score_factor",
+        "company.id",
+      ])
+      .getFirst({
+        filter: { id },
+      });
+
+    // play environment
+    if (game?.world?.environment?.id) {
+      await this.root.environmentController.turn(game.world.environment.id);
+    }
+
+    // play economy
+    if (game?.world?.economy?.id) {
+      await this.root.economyController.turn(game.world.economy.id);
+    }
+
+    // adjust score_factor
+    const score_factor = game?.score_factor
+      ? this.root.calculateFactor(game.score_factor)
+      : 1;
+
+    // dispatch action
+    await this.root.actionController.turnAction({
+      type: options.type,
+      company: game!.company!.id,
+      data: {
+        score_factor: {
+          previous: game?.score_factor,
+          next: score_factor,
+        },
+      },
+    });
+
+    await this.update({
+      id,
+      score_factor,
+    });
   }
 }

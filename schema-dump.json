@@ -1,0 +1,282 @@
+✨ A newer version of @xata.io/client is now available: 0.30.0. You are currently using version: 0.29.5
+{
+  "tables": [
+    {
+      "name": "game",
+      "columns": [
+        {
+          "name": "turn",
+          "type": "int",
+          "defaultValue": "0"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        {
+          "name": "starting_country",
+          "type": "link",
+          "link": {
+            "table": "country"
+          }
+        },
+        {
+          "name": "company",
+          "type": "link",
+          "link": {
+            "table": "company"
+          }
+        },
+        {
+          "name": "world",
+          "type": "link",
+          "link": {
+            "table": "world"
+          }
+        },
+        {
+          "name": "score_factor",
+          "type": "float",
+          "defaultValue": "1.01"
+        }
+      ]
+    },
+    {
+      "name": "country",
+      "columns": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "gdp",
+          "type": "float"
+        }
+      ],
+      "revLinks": [
+        {
+          "column": "starting_country",
+          "table": "company"
+        },
+        {
+          "column": "starting_country",
+          "table": "game"
+        }
+      ]
+    },
+    {
+      "name": "company",
+      "columns": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "starting_country",
+          "type": "link",
+          "link": {
+            "table": "country"
+          }
+        },
+        {
+          "name": "company_type",
+          "type": "string",
+          "defaultValue": "manufacturing"
+        }
+      ],
+      "revLinks": [
+        {
+          "column": "company",
+          "table": "game"
+        },
+        {
+          "column": "company",
+          "table": "action"
+        }
+      ]
+    },
+    {
+      "name": "action",
+      "columns": [
+        {
+          "name": "company",
+          "type": "link",
+          "link": {
+            "table": "company"
+          }
+        },
+        {
+          "name": "data",
+          "type": "json"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "notNull": true,
+          "defaultValue": "invest"
+        }
+      ]
+    },
+    {
+      "name": "environment",
+      "columns": [
+        {
+          "name": "celsius_increase",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        {
+          "name": "deforestation",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        {
+          "name": "ocean_biodiversity",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        {
+          "name": "land_biodiversity",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        {
+          "name": "sea_level_rise",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        {
+          "name": "ozone",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        {
+          "name": "microplastics",
+          "type": "int",
+          "defaultValue": "0"
+        },
+        {
+          "name": "oil_spills",
+          "type": "multiple"
+        },
+        {
+          "name": "natural_disasters",
+          "type": "multiple"
+        }
+      ],
+      "revLinks": [
+        {
+          "column": "environment",
+          "table": "world"
+        }
+      ]
+    },
+    {
+      "name": "world",
+      "columns": [
+        {
+          "name": "environment",
+          "type": "link",
+          "link": {
+            "table": "environment"
+          }
+        },
+        {
+          "name": "economy",
+          "type": "link",
+          "link": {
+            "table": "economy"
+          }
+        }
+      ],
+      "revLinks": [
+        {
+          "column": "world",
+          "table": "game"
+        }
+      ]
+    },
+    {
+      "name": "economy",
+      "columns": [
+        {
+          "name": "s_and_p",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        {
+          "name": "ftse",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        {
+          "name": "dow",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        {
+          "name": "dax",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        {
+          "name": "nasdaq",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        {
+          "name": "bitcoin",
+          "type": "int",
+          "defaultValue": "10000"
+        },
+        {
+          "name": "ethereum",
+          "type": "int",
+          "defaultValue": "1000"
+        },
+        {
+          "name": "usd_eur",
+          "type": "float",
+          "defaultValue": "1.0"
+        },
+        {
+          "name": "gold",
+          "type": "float",
+          "defaultValue": "100"
+        },
+        {
+          "name": "silver",
+          "type": "float",
+          "defaultValue": "50.0"
+        },
+        {
+          "name": "gdp",
+          "type": "float",
+          "defaultValue": "1"
+        },
+        {
+          "name": "inflation",
+          "type": "float",
+          "defaultValue": "2"
+        },
+        {
+          "name": "gbp_usd",
+          "type": "float",
+          "defaultValue": "1.0"
+        },
+        {
+          "name": "gbp_eur",
+          "type": "float",
+          "defaultValue": "1.0"
+        }
+      ],
+      "revLinks": [
+        {
+          "column": "economy",
+          "table": "world"
+        }
+      ]
+    }
+  ]
+}

@@ -19,6 +19,10 @@ export class GameModel {
     return await this.#gameRecord.create(game);
   }
 
+  async update(game: Partial<EditableData<GameRecord>> & Identifiable) {
+    return await this.#gameRecord.update(game);
+  }
+
   migration_create(
     game: Omit<EditableData<GameRecord>, "id"> & Partial<Identifiable>
   ) {
@@ -38,7 +42,7 @@ export class GameModel {
     return await getXataClient().transactions.run(migrations);
   }
 
-  async getFactor(id: string, score_factor: number) {
+  async getFactor(id: string) {
     const game = await this.#gameRecord.select(["score_factor"]).getFirst({
       filter: { id },
     });
