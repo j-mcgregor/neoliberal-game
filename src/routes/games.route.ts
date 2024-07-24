@@ -56,6 +56,8 @@ export function gameRoutes(app: App, root: Root) {
 
   app.put("/games/:id/turn", async (request, server, params) => {
     const id = params?.id;
+    const body = await request.json();
+    const action = body.action;
 
     if (!id) {
       return Response.json(
@@ -70,7 +72,7 @@ export function gameRoutes(app: App, root: Root) {
 
     const gameController = root.getController("GamesController");
 
-    const game = await gameController?.turn(id);
+    const game = await gameController?.turn(id, action);
 
     return Response.json(game);
   });

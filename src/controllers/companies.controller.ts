@@ -8,6 +8,7 @@ import { ActionTypeEnum } from "..";
 import { loggedMethod } from "../decorators/action.decorator";
 import type { GameAction } from "./actions.controller";
 import { Root } from "../root";
+import type { createAction } from "../lib/actions/create-action";
 
 export class CompaniesController {
   root: Root;
@@ -24,7 +25,7 @@ export class CompaniesController {
    * Each action logs a game event.
    */
   @loggedMethod
-  async turnAction(action: GameAction) {
+  async turnAction(action: ReturnType<typeof createAction>) {
     return await this.root.actionController?.turnAction(action);
   }
 }

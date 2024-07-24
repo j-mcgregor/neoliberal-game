@@ -271,7 +271,7 @@ export interface IScience {
 // the Action could actually be sent in a reducer pattern like Redux
 export interface IAction {
   type: ActionTypeEnum;
-  payload?: unknown;
+  data?: unknown;
 }
 
 export enum ActionTypeEnum {

@@ -1,6 +1,7 @@
 import { ActionTypeEnum } from "..";
 import { type CompanyRecord } from "../xata";
 import { Root } from "../root";
+import type { createAction } from "../lib/actions/create-action";
 
 export interface GameAction {
   type: ActionTypeEnum;
@@ -19,8 +20,7 @@ export class ActionsController {
   async deleteAction() {}
   async getAction() {}
 
-  async turnAction(action: GameAction) {
-    // return await this.model.db.action.create(action);
+  async turnAction(action: ReturnType<typeof createAction>) {
     return this.root.actionModel.create(action);
   }
 }

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { EditableData, Identifiable } from "@xata.io/client";
 import { ActionTypeEnum } from "..";
 import type { GameTurnOptions } from "../../types";
+import { createAction } from "../lib/actions/create-action";
 
 export class GamesController {
   root: Root;
@@ -83,12 +84,7 @@ export class GamesController {
     });
   }
 
-  async turn(
-    id: string,
-    options: GameTurnOptions = {
-      type: ActionTypeEnum.TURN,
-    }
-  ) {
+  async turn(id: string, action: ReturnType<typeof createAction>) {
     const game = await this.root.model.db.game
       .select([
         "world.economy.id",
@@ -116,16 +112,7 @@ export class GamesController {
       : 1;
 
     // dispatch action
-    await this.root.actionController.turnAction({
-      type: options.type,
-      company: game!.company!.id,
-      data: {
-        score_factor: {
-          previous: game?.score_factor,
-          next: score_factor,
-        },
-      },
-    });
+    await this.root.actionController.turnAction(action);
 
     await this.update({
       id,

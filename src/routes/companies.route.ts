@@ -3,6 +3,11 @@ import { Root } from "../root";
 import { ActionTypeEnum } from "..";
 
 export function companyRoutes(app: App, root: Root) {
+  /**
+   * A player can have multiple company actions per turn
+   * eg buy, sell, invest, etc.
+   * Each action type corresponds to a different action.
+   */
   app.post("/companies/:id/actions", async (request, server, params) => {
     const body = await request.json();
     const id = params?.id;
