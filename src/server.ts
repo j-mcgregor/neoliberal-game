@@ -21,6 +21,8 @@ import { worldRoutes } from "./routes/world.route";
 import { economyRoutes } from "./routes/economy.route";
 import { environmentRoutes } from "./routes/environment.route";
 import { rootRoutes } from "./routes/root.route";
+import { CompanyFundamentalsModel } from "./models/CompanyFundamentals.model";
+import { CompanyFundamentalsController } from "./controllers/company-fundamentals.contoller";
 
 const app = new App({
   port: 8080,
@@ -37,6 +39,7 @@ const root = new Root({
     CountryModel,
     GameModel,
     EconomyModel,
+    CompanyFundamentalsModel,
   ],
   controllers: [
     WorldController,
@@ -46,6 +49,7 @@ const root = new Root({
     CountriesController,
     GamesController,
     EconomyController,
+    CompanyFundamentalsController,
   ],
 });
 

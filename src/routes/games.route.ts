@@ -21,6 +21,7 @@ export function gameRoutes(app: App, root: Root) {
 
       return Response.json(game);
     } catch (error) {
+      console.log("error :>> ", error);
       return Response.json(
         {
           message: String(error),

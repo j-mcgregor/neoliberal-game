@@ -20,3 +20,5 @@ const goPublicAction = createAction(ActionTypeEnum.GO_PUBLIC, {
 });
 
 console.log(JSON.stringify(goPublicAction));
+console.log(JSON.stringify(turnAction));
+console.log(JSON.stringify(acquireAction));

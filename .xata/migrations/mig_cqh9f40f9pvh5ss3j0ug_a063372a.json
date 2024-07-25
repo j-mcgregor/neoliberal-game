@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9f40f9pvh5ss3j0ug",
+  "parentID": "mig_cqh9f0armqgu08olto6g",
+  "checksum": "1:a063372a50cdfd0bc50060d62db6c45cd088b02a2cb66a889548794bbb7e2a16",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "company_size",
+          "type": "int",
+          "defaultValue": "0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

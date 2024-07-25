@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9f0armqgu08olto6g",
+  "parentID": "mig_cqh9esu4l42ggelogoq0",
+  "checksum": "1:199e544cff86defbba19941af82c7a1f6162127226a4668d768368730d9272ee",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "liabilities",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

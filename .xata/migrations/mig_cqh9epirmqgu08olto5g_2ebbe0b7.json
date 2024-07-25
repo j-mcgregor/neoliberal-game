@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9epirmqgu08olto5g",
+  "parentID": "mig_cqh9eku4l42ggelogop0",
+  "checksum": "1:2ebbe0b73cfc4813892ea0264dcfe689f605225e6fcaeabd2d1d475e2c89a8ac",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "debt",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

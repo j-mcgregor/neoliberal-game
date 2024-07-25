@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9eggf9pvh5ss3j0tg",
+  "parentID": "mig_cqh9ede4l42ggelogoo0",
+  "checksum": "1:805f1493d02f7baae6255144385b1ba6ff7b3013d1a362fcdc7fcadbea35507f",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "expenses",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

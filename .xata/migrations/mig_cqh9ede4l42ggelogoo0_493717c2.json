@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9ede4l42ggelogoo0",
+  "parentID": "mig_cqh9e9u4l42ggelogon0",
+  "checksum": "1:493717c27b4ef9aaa930862980484ecb4942ef79e4e26ce9b5d99973cdd6a8c2",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "revenue",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

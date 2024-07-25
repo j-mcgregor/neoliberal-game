@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9d5e4l42ggelogol0",
+  "parentID": "mig_cqh9charmqgu08olto2g",
+  "checksum": "1:1d66995fd82d04698c9c0a670242b390bbde68a281ab64608101368ced4c7a27",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "technology",
+          "type": "json",
+          "defaultValue": "[]"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

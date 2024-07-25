@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9cbm4l42ggelogok0",
+  "parentID": "mig_cqh98larmqgu08olto1g",
+  "checksum": "1:2b41b08f7c3f4f72ef8c4e9c600144a7d905e6e9a923f63753a2fb7eb85716f8",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "domestic_influence",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

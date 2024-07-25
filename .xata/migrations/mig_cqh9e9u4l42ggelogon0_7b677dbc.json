@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9e9u4l42ggelogon0",
+  "parentID": "mig_cqh9e52rmqgu08olto4g",
+  "checksum": "1:7b677dbcadd9dc69de1276fb136c5b94085a5150c9f771250f758450c2d9179e",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "net_profit",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

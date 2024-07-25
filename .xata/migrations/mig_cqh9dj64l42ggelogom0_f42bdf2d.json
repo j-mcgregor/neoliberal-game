@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9dj64l42ggelogom0",
+  "parentID": "mig_cqh9d5e4l42ggelogol0",
+  "checksum": "1:f42bdf2df53b07b20730be2dbb3f299db53e5b83c60f66c3a862d3f0c2ce5037",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "acquisitions",
+          "type": "json",
+          "defaultValue": "[]"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

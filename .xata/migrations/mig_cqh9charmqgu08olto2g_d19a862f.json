@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9charmqgu08olto2g",
+  "parentID": "mig_cqh9cbm4l42ggelogok0",
+  "checksum": "1:d19a862f55340bf3f7866c794fb8228aeb9f384de578567d289bebdf7c75d09b",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "foreign_influence",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

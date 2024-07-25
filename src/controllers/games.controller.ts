@@ -19,6 +19,7 @@ export class GamesController {
   }) {
     const countryId = uuidv4();
     const companyId = uuidv4();
+    const companyFundamentalsId = uuidv4();
     const environmentId = uuidv4();
     const worldId = uuidv4();
     const economyId = uuidv4();
@@ -42,6 +43,7 @@ export class GamesController {
     const company = companyModel?.migration_create({
       id: companyId,
       name: options.company_name,
+      company_fundamentals: companyFundamentalsId,
     });
 
     // Environment
@@ -68,7 +70,16 @@ export class GamesController {
       world: worldId,
     });
 
+    // Company Fundamentals
+    const companyFundamentalsModel = this.root.getModel(
+      "CompanyFundamentalsModel"
+    );
+    const companyFundamentals = companyFundamentalsModel?.migration_create({
+      id: companyFundamentalsId,
+    });
+
     return await this.root.gameModel?.migrations_run([
+      companyFundamentals,
       country,
       company,
       economy,

@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqh98larmqgu08olto1g",
+  "parentID": "mig_cqh98ce4l42ggelogoj0",
+  "checksum": "1:7ba26c11cac8f221f2d1b25b7f0bdf1dee506b5114dbd5c0b33bfacb07dbf92a",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "company_fundamentals",
+          "type": "link",
+          "link": {
+            "table": "company_fundamentals"
+          }
+        },
+        "table": "company"
+      }
+    }
+  ]
+}

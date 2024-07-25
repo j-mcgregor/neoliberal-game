@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9dm2rmqgu08olto3g",
+  "parentID": "mig_cqh9dj64l42ggelogom0",
+  "checksum": "1:fc17b74b0527c1f9e2bbb6a51f4409ecc7618edcc0bd826ff867f77166238baa",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "stock_price",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

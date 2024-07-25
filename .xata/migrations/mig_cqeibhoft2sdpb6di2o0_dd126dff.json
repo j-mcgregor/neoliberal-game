@@ -1,0 +1,13 @@
+{
+  "id": "mig_cqeibhoft2sdpb6di2o0",
+  "parentID": "mig_cqduen0ft2sdpb6dhtug",
+  "checksum": "1:dd126dffbfcd63a6ab524223919564fe4e29945522fce37edeef2e8f56f47b5e",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "score_factor",
+        "table": "game"
+      }
+    }
+  ]
+}

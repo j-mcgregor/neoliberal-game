@@ -37,11 +37,7 @@ export function companyRoutes(app: App, root: Root) {
     const companyController = root.getController("CompaniesController");
 
     try {
-      const action = await companyController?.turnAction({
-        company: id,
-        data: body.data,
-        type: body.type,
-      });
+      const action = await companyController?.turnAction(body.action);
 
       return Response.json({ action });
     } catch (error) {

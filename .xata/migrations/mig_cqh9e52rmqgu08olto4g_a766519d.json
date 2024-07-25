@@ -1,0 +1,17 @@
+{
+  "id": "mig_cqh9e52rmqgu08olto4g",
+  "parentID": "mig_cqh9dm2rmqgu08olto3g",
+  "checksum": "1:a766519d0b0e04fbe992543ae9b94d6a06df9715fc94747777c3c26ecd09e129",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "shares_outstanding",
+          "type": "int",
+          "defaultValue": "0"
+        },
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

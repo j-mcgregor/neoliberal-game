@@ -14,6 +14,8 @@ import type { CountriesController } from "./controllers/countries.controller";
 import type { EconomyModel } from "./models/Economy.model";
 import type { EconomyController } from "./controllers/economy.controller";
 import type { TransactionOperation } from "@xata.io/client";
+import type { CompanyFundamentalsModel } from "./models/CompanyFundamentals.model";
+import type { CompanyFundamentalsController } from "./controllers/company-fundamentals.contoller";
 
 export type Models = {
   ActionModel: ActionModel;
@@ -23,6 +25,7 @@ export type Models = {
   WorldModel: WorldModel;
   EnvironmentModel: EnvironmentModel;
   EconomyModel: EconomyModel;
+  CompanyFundamentalsModel: CompanyFundamentalsModel;
 };
 export type Controllers = {
   ActionsController: ActionsController;
@@ -32,6 +35,7 @@ export type Controllers = {
   WorldController: WorldController;
   EnvironmentController: EnvironmentController;
   EconomyController: EconomyController;
+  CompanyFundamentalsController: CompanyFundamentalsController;
 };
 
 export class Root {
@@ -98,6 +102,10 @@ export class Root {
     return this.getController("EconomyController");
   }
 
+  get companyFundamentalsController() {
+    return this.getController("CompanyFundamentalsController");
+  }
+
   getModel<K extends keyof Models>(key: K): Models[K] {
     return this.models.get(key) as Models[K];
   }
@@ -128,6 +136,10 @@ export class Root {
 
   get economyModel() {
     return this.getModel("EconomyModel");
+  }
+
+  get companyFundamentalsModel() {
+    return this.getModel("CompanyFundamentalsModel");
   }
 
   // get xata table columns
@@ -167,6 +179,7 @@ export class Root {
       "environment",
       "game",
       "world",
+      "company_fundamentals",
     ]
   ) {
     function makeDeleteAction(id: string, table: keyof DatabaseSchema) {
@@ -188,6 +201,17 @@ export class Root {
             .select(["id"])
             .getAll()
             .then((act) => act.map((a) => makeDeleteAction(a.id, "company")))
+        : [];
+
+      const company_fundamentals_migrations = tables.includes(
+        "company_fundamentals"
+      )
+        ? await this.model.db.company_fundamentals
+            .select(["id"])
+            .getAll()
+            .then((act) =>
+              act.map((a) => makeDeleteAction(a.id, "company_fundamentals"))
+            )
         : [];
 
       const countries_migrations = tables.includes("country")
@@ -230,6 +254,7 @@ export class Root {
       await this.migrations_run([
         ...actions_migrations,
         ...companies_migrations,
+        ...company_fundamentals_migrations,
         ...countries_migrations,
         ...economies_migrations,
         ...environments_migrations,
