@@ -2,8 +2,6 @@ import type { EnvironmentRecord, GameRecord } from "../xata";
 import type { Root } from "../root";
 import { v4 as uuidv4 } from "uuid";
 import type { EditableData, Identifiable } from "@xata.io/client";
-import { ActionTypeEnum } from "..";
-import type { GameTurnOptions } from "../../types";
 import { createAction } from "../lib/actions/create-action";
 
 export class GamesController {

@@ -4,24 +4,8 @@
  * -------------------------------
  */
 
-export interface ICompany {
-  name: string;
-  starting_country: ICountry;
-  company_type: CompanyTypeEnum;
-  score: number;
-  financials: {
-    net_revenue: number;
-    net_loss: number;
-    tax_annual: number;
-    // private
-    valuation: number;
-    // public
-    share_price: number;
-    market_cap: number;
-  };
-  countries: ICountry[];
-  products: IProduct[];
-}
+import type { Sector } from "../types";
+import type { EnvironmentRecord } from "./xata";
 
 export enum CompanyTypeEnum {
   // start with these for now
@@ -77,7 +61,7 @@ export interface IPublicOpinion {
   assassinations: IAssassination[];
   // eg a well-placed bribe can make the public forget about something
   bribes: IBribe[];
-  environment: IEnvironment;
+  environment: EnvironmentRecord;
 }
 
 /*
@@ -131,18 +115,6 @@ export interface IBribe {
  * -------------------------------
  */
 
-export interface IEnvironment {
-  celsius_increase: number; // degrees above pre-industrial average - as it rises the
-  deforestation: number; // 0 - 100%
-  ocean_biodiversity: number; // starts at 100 and goes down
-  land_biodiversity: number; // starts at 100 and goes down
-  sea_level_rise: number; // 0 - 10m
-  oil_spills: IOilSpill[];
-  ozone: number; // 0 - 100% - at 10%, it accelerates land_biodiversity
-  microplastics: number; // parts per million - it accelerates ocean_biodiversity
-  natural_disasters: INaturalDisaster[];
-}
-
 export interface IOilSpill {
   location: string;
   damage: number;
@@ -189,35 +161,6 @@ export enum PoliticalPersuasionEnum {
   FAR_RIGHT = "far right",
 }
 
-/*
- * -------------------------------
- * GAME
- * -------------------------------
- */
-
-export interface IGame {
-  // a number between -1 and 1 that's used to determine
-  // the growth of the company. It should be made by adding
-  // various economic and game state factors together then
-  // calculating the value to be between -1 and 1
-  score_factor: number;
-  company: ICompany;
-  starting_country: ICountry;
-  conquered_countries: ICountry[];
-  progress: number;
-  game_date: Date;
-  turn: number;
-  environment: IEnvironment;
-  events: IGameEvent[];
-  actions: IAction[];
-}
-
-export interface IGameEvent {
-  type: EventTypeEnum;
-  score_impact: number;
-  environmental_impact: number;
-}
-
 export enum EventTypeEnum {
   // normally a precursor to an investigation
   SCANDAL = "scandal",
@@ -257,23 +200,6 @@ export interface IScience {
   type: "environment" | "corporate";
 }
 
-/*
- * --------------------------------------------------------------
- * GAME PLAY
- * - turn based is the simplest for now, like Civ
- * - user selects country to start in: countries have difficulty level
- * - company starts off with 10k in revenue
- * - each round, the user can choose what they want to do with the money
- * - at first, the list of options are small but new options are unlocked as the game progresses
- * --------------------------------------------------------------
- */
-
-// the Action could actually be sent in a reducer pattern like Redux
-export interface IAction {
-  type: ActionTypeEnum;
-  data?: unknown;
-}
-
 export enum ActionTypeEnum {
   TURN = "turn",
   // legal
@@ -292,4 +218,98 @@ export enum ActionTypeEnum {
   LOBBY = "lobby",
   // can only be used once but can generate a huge amount of capital
   GO_PUBLIC = "go public",
+}
+export enum TechnologyEnum {
+  AI = "Artificial Intelligence",
+  BLOCKCHAIN = "blockchain",
+  QUANTUM_COMPUTING = "Quantum Computing",
+  NANOTECHNOLOGY = "Nanotechnology",
+  ROBOTICS = "Robotics",
+  _3D_PRINTING = "3D Printing",
+  VIRTUAL_REALITY = "Virtual Reality",
+  AUGMENTED_REALITY = "Augmented Reality",
+  INTERNET_OF_THINGS = "Internet of Things",
+  _5G_NETWORKS = "5G Networks",
+  GENE_EDITING = "Gene Editing",
+  RENEWABLE_ENERGY = "Renewable Energy",
+  ELECTRIC_VEHICLES = "Electric Vehicles",
+  AUTONOMOUS_VEHICLES = "Autonomous Vehicles",
+  CYBERSECURITY = "Cybersecurity",
+  CLOUD_COMPUTING = "Cloud Computing",
+  BIG_DATA_ANALYTICS = "Big Data Analytics",
+  DRONES = "Drones",
+  SPACE_PROPULSION = "Space Propulsion",
+  SMART_MATERIALS = "Smart Materials",
+  BIO_INFORMATICS = "Bioinformatics",
+  FUSION_ENERGY = "Fusion Energy",
+  BRAIN_COMPUTER_INTERFACES = "Brain-Computer Interfaces",
+  SYNTHETIC_BIOLOGY = "Synthetic Biology",
+  VERTICAL_FARMING = "Vertical Farming",
+  QUANTUM_CRYPTOGRAPHY = "Quantum Cryptography",
+  HYPER_LOOP = "Hyperloop",
+  EXOSKELETONS = "Exoskeletons",
+  HOLOGRAPHIC_DISPLAYS = "Holographic Displays",
+  SMART_GRIDS = "Smart Grids",
+}
+
+export const techSectors: Record<keyof typeof TechnologyEnum, Sector[]> = {
+  AI: [
+    "Information Technology",
+    "Healthcare",
+    "Finance",
+    "Manufacturing",
+    "Defense",
+  ],
+  BLOCKCHAIN: ["Finance", "Information Technology", "Healthcare"],
+  QUANTUM_COMPUTING: [
+    "Information Technology",
+    "Finance",
+    "Defense",
+    "Healthcare",
+  ],
+  NANOTECHNOLOGY: ["Healthcare", "Manufacturing", "Energy", "Environmental"],
+  ROBOTICS: ["Manufacturing", "Healthcare", "Defense", "Space"],
+  _3D_PRINTING: ["Manufacturing", "Healthcare", "Education"],
+  VIRTUAL_REALITY: ["Entertainment", "Education", "Healthcare"],
+  AUGMENTED_REALITY: ["Entertainment", "Education", "Manufacturing"],
+  INTERNET_OF_THINGS: [
+    "Information Technology",
+    "Manufacturing",
+    "Energy",
+    "Transportation",
+  ],
+  _5G_NETWORKS: ["Information Technology", "Transportation", "Entertainment"],
+  GENE_EDITING: ["Healthcare", "Agriculture"],
+  RENEWABLE_ENERGY: ["Energy", "Environmental"],
+  ELECTRIC_VEHICLES: ["Transportation", "Energy", "Manufacturing"],
+  AUTONOMOUS_VEHICLES: ["Transportation", "Information Technology"],
+  CYBERSECURITY: ["Information Technology", "Defense", "Finance"],
+  CLOUD_COMPUTING: ["Information Technology", "Finance", "Healthcare"],
+  BIG_DATA_ANALYTICS: [
+    "Information Technology",
+    "Finance",
+    "Healthcare",
+    "Manufacturing",
+  ],
+  DRONES: ["Transportation", "Agriculture", "Defense"],
+  SPACE_PROPULSION: ["Space", "Transportation"],
+  SMART_MATERIALS: ["Manufacturing", "Energy", "Transportation"],
+  BIO_INFORMATICS: ["Healthcare", "Information Technology"],
+  FUSION_ENERGY: ["Energy", "Environmental"],
+  BRAIN_COMPUTER_INTERFACES: [
+    "Healthcare",
+    "Information Technology",
+    "Entertainment",
+  ],
+  SYNTHETIC_BIOLOGY: ["Healthcare", "Agriculture", "Manufacturing"],
+  VERTICAL_FARMING: ["Agriculture", "Environmental"],
+  QUANTUM_CRYPTOGRAPHY: ["Information Technology", "Defense", "Finance"],
+  HYPER_LOOP: ["Transportation", "Energy"],
+  EXOSKELETONS: ["Healthcare", "Manufacturing", "Defense"],
+  HOLOGRAPHIC_DISPLAYS: ["Entertainment", "Education", "Manufacturing"],
+  SMART_GRIDS: ["Energy", "Information Technology", "Environmental"],
+};
+
+export interface TechAndSector {
+  [TechnologyEnum.AI]: CompanyTypeEnum[];
 }

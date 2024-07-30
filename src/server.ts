@@ -23,6 +23,7 @@ import { environmentRoutes } from "./routes/environment.route";
 import { rootRoutes } from "./routes/root.route";
 import { CompanyFundamentalsModel } from "./models/CompanyFundamentals.model";
 import { CompanyFundamentalsController } from "./controllers/company-fundamentals.contoller";
+import { companyFundamentalsRoutes } from "./routes/company-fundamentals.route";
 
 const app = new App({
   port: 8080,
@@ -54,6 +55,7 @@ const root = new Root({
 });
 
 rootRoutes(app, root);
+companyFundamentalsRoutes(app, root);
 gameRoutes(app, root);
 companyRoutes(app, root);
 worldRoutes(app, root);
