@@ -1,28 +1,20 @@
-import type { EditableData, UpdateTransactionOperation } from "@xata.io/client";
-import type { CompanyFundamentalsRecord } from "../xata";
 import type { ITechnology } from "../../types";
 import { isValidTechArray, makeDefaultTechnology } from "./type-checkers.utils";
 import type { ActionTypeEnum, TechnologyEnum } from "..";
-
-export function makeMigration(
-  id: string,
-  fields: Partial<EditableData<CompanyFundamentalsRecord>>
-): UpdateTransactionOperation<CompanyFundamentalsRecord> {
-  return {
-    id,
-    fields,
-  };
-}
-
-export type Migration = ReturnType<typeof makeMigration>;
-export type MigrationUpdate = { update: Migration };
+import type { UpdateMigration } from "../../types/xata-custom";
 
 export class HandleFundamentals {
-  migration: MigrationUpdate;
+  migration: UpdateMigration;
   type: keyof typeof ActionTypeEnum;
 
-  constructor(migration: MigrationUpdate, type: keyof typeof ActionTypeEnum) {
-    this.migration = migration;
+  constructor(id: string, type: keyof typeof ActionTypeEnum) {
+    this.migration = {
+      update: {
+        table: "company_fundamentals",
+        fields: {},
+        id,
+      },
+    };
     this.type = type;
   }
 
@@ -32,8 +24,7 @@ export class HandleFundamentals {
   }: {
     expenses?: number | null;
     amount?: number;
-  }): MigrationUpdate {
-    this.migration;
+  }): UpdateMigration {
     switch (this.type) {
       case "RESEARCH":
         if (typeof expenses === "number" && typeof amount === "number") {
@@ -53,7 +44,7 @@ export class HandleFundamentals {
     technology?: ITechnology[];
     amount?: number;
     tech_payload: keyof typeof TechnologyEnum;
-  }): MigrationUpdate {
+  }): UpdateMigration {
     switch (this.type) {
       case "RESEARCH":
         // return if technology is not an array or amount is not a number
@@ -70,9 +61,10 @@ export class HandleFundamentals {
 
         // if technology is empty or tech does not exist, add a default technology
         if (technology.length === 0 || !techExists) {
+          const tech = makeDefaultTechnology(tech_payload, 1000, 10);
           this.migration.update.fields.technology = [
-            makeDefaultTechnology(tech_payload, 1000, 10),
-          ];
+            { ...tech, current_research_points: amount },
+          ] as ITechnology[];
         }
 
         // if technology exists, update the current research points and turns
@@ -98,7 +90,7 @@ export class HandleFundamentals {
   }: {
     cash?: number | null;
     amount?: number;
-  }): MigrationUpdate {
+  }): UpdateMigration {
     switch (this.type) {
       case "RESEARCH":
         if (typeof cash === "number" && typeof amount === "number") {
@@ -116,7 +108,7 @@ export class HandleFundamentals {
   }: {
     liabilities?: number | null;
     amount?: number;
-  }): MigrationUpdate {
+  }): UpdateMigration {
     switch (this.type) {
       case "RESEARCH":
         const cash = this.migration.update.fields.cash;
@@ -133,7 +125,7 @@ export class HandleFundamentals {
   }: {
     company_size?: number | null;
     amount?: number;
-  }): MigrationUpdate {
+  }): UpdateMigration {
     switch (this.type) {
       case "RESEARCH":
         if (typeof company_size === "number" && typeof amount === "number") {

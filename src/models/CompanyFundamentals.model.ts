@@ -27,12 +27,8 @@ import type {
   IActionResearch,
   IActionTurn,
 } from "../../types";
-import {
-  HandleFundamentals,
-  makeMigration,
-  type Migration,
-  type MigrationUpdate,
-} from "../utils/handle-fundamentals.utils";
+import { HandleFundamentals } from "../utils/handle-fundamentals.utils";
+import type { UpdateMigration } from "../../types/xata-custom";
 
 export class CompanyFundamentalsModel {
   #companyFundamentalsRecord: Repository<CompanyFundamentalsRecord>;
@@ -40,7 +36,7 @@ export class CompanyFundamentalsModel {
 
   companyFundamentalActionMap: Record<
     ActionTypeEnum,
-    (id: string, data: any) => Promise<MigrationUpdate>
+    (id: string, data: any) => Promise<UpdateMigration>
   > = {
     [ActionTypeEnum.TURN]: (id, data: IActionTurn) => this.handleTurn(id, data),
     [ActionTypeEnum.RESEARCH]: (id, data: IActionResearch) =>
@@ -104,8 +100,7 @@ export class CompanyFundamentalsModel {
   }
 
   async handleTurn(id: string, data: any) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "TURN");
+    const handler = new HandleFundamentals(id, "TURN");
 
     return handler.migration;
   }
@@ -127,8 +122,7 @@ export class CompanyFundamentalsModel {
       "company_size",
     ]);
 
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "RESEARCH");
+    const handler = new HandleFundamentals(id, "RESEARCH");
 
     handler.expenses({
       expenses: cf.expenses,
@@ -175,8 +169,7 @@ export class CompanyFundamentalsModel {
       "cash",
     ]);
 
-    const migration = makeMigration(id, data.data as any);
-    const handler = new HandleFundamentals({ update: migration }, "INVEST");
+    const handler = new HandleFundamentals(id, "INVEST");
 
     return handler.migration;
   }
@@ -192,8 +185,7 @@ export class CompanyFundamentalsModel {
    * net profit +/-
    */
   async handleAcquire(id: string, data: IActionAcquire) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "ACQUIRE");
+    const handler = new HandleFundamentals(id, "ACQUIRE");
 
     return handler.migration;
   }
@@ -207,8 +199,7 @@ export class CompanyFundamentalsModel {
    * net profit +/-
    */
   async handleExpand(id: string, data: IActionExpand) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "EXPAND");
+    const handler = new HandleFundamentals(id, "EXPAND");
 
     return handler.migration;
   }
@@ -220,8 +211,7 @@ export class CompanyFundamentalsModel {
    * net profit +/-
    */
   async handleMarketing(id: string, data: IActionMarketing) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "MARKETING");
+    const handler = new HandleFundamentals(id, "MARKETING");
 
     return handler.migration;
   }
@@ -232,8 +222,7 @@ export class CompanyFundamentalsModel {
    * liabilities - (tax write-off)
    */
   async handleDonate(id: string, data: IActionDonate) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "DONATE");
+    const handler = new HandleFundamentals(id, "DONATE");
 
     return handler.migration;
   }
@@ -243,8 +232,7 @@ export class CompanyFundamentalsModel {
    * cash -
    */
   async handlePayFine(id: string, data: IActionPayFine) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "PAY_FINE");
+    const handler = new HandleFundamentals(id, "PAY_FINE");
 
     return handler.migration;
   }
@@ -254,8 +242,7 @@ export class CompanyFundamentalsModel {
    * cash -
    */
   async handleBribe(id: string, data: IActionBribe) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "BRIBE");
+    const handler = new HandleFundamentals(id, "BRIBE");
 
     return handler.migration;
   }
@@ -266,11 +253,7 @@ export class CompanyFundamentalsModel {
    * cash -
    */
   async handleAssassination(id: string, data: IActionAssassination) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals(
-      { update: migration },
-      "ASSASSINATION"
-    );
+    const handler = new HandleFundamentals(id, "ASSASSINATION");
 
     return handler.migration;
   }
@@ -280,8 +263,7 @@ export class CompanyFundamentalsModel {
    * cash -
    */
   async handleLobby(id: string, data: IActionLobby) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "LOBBY");
+    const handler = new HandleFundamentals(id, "LOBBY");
 
     return handler.migration;
   }
@@ -294,8 +276,7 @@ export class CompanyFundamentalsModel {
    * stock price +
    */
   async handleGoPublic(id: string, data: IActionGoPublic) {
-    const migration = makeMigration(id, data as any);
-    const handler = new HandleFundamentals({ update: migration }, "GO_PUBLIC");
+    const handler = new HandleFundamentals(id, "GO_PUBLIC");
 
     return handler.migration;
   }
