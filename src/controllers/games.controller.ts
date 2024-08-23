@@ -3,6 +3,7 @@ import type { Root } from "../root";
 import { v4 as uuidv4 } from "uuid";
 import type { EditableData, Identifiable } from "@xata.io/client";
 import { createAction } from "../lib/actions/create-action";
+import type { DifficultyEnum } from "..";
 
 export class GamesController {
   root: Root;
@@ -14,6 +15,7 @@ export class GamesController {
     starting_country: string;
     company_name: string;
     environment?: Partial<EnvironmentRecord>;
+    difficulty?: DifficultyEnum;
   }) {
     const countryId = uuidv4();
     const companyId = uuidv4();
@@ -66,6 +68,7 @@ export class GamesController {
       company: companyId,
       starting_country: countryId,
       world: worldId,
+      difficulty: options.difficulty,
     });
 
     // Company Fundamentals

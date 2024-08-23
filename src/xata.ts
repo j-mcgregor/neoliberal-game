@@ -16,6 +16,7 @@ const tables = [
       { name: "company", type: "link", link: { table: "company" } },
       { name: "world", type: "link", link: { table: "world" } },
       { name: "score_factor", type: "float", defaultValue: "1.01" },
+      { name: "difficulty", type: "string", defaultValue: "easy" },
     ],
   },
   {

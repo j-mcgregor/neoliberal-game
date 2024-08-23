@@ -1,4 +1,4 @@
-import type { ActionTypeEnum, TechnologyEnum } from "../src";
+import type { ActionTypeEnum, DifficultyEnum, TechnologyEnum } from "../src";
 
 // the Action could actually be sent in a reducer pattern like Redux
 export interface IAction {
@@ -117,3 +117,15 @@ export type Sector =
   | "Defense"
   | "Space"
   | "Environmental";
+
+export type Settings = {
+  [key in DifficultyEnum]: {
+    unlocked_at: number;
+    research_points_needed: number;
+    research_turns_needed: number;
+  };
+};
+
+export type DifficultySettings = {
+  [key in keyof typeof TechnologyEnum]: Settings;
+};

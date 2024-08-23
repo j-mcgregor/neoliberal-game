@@ -1,0 +1,17 @@
+{
+  "id": "mig_cql98md7n86ql8ir5hr0",
+  "parentID": "mig_cqh9f40f9pvh5ss3j0ug",
+  "checksum": "1:c1ad8b3a14af69f82c791efa7d5b59491da188e438252997110cdd76772ac0e7",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "difficulty",
+          "type": "string",
+          "defaultValue": "easy"
+        },
+        "table": "game"
+      }
+    }
+  ]
+}

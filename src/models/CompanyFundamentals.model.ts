@@ -11,7 +11,7 @@ import {
   type DatabaseSchema,
 } from "../xata";
 import type { createAction } from "../lib/actions/create-action";
-import { ActionTypeEnum } from "..";
+import { ActionTypeEnum, DifficultyEnum } from "..";
 import type { Root } from "../root";
 import type {
   IActionAcquire,
@@ -29,6 +29,11 @@ import type {
 } from "../../types";
 import { HandleFundamentals } from "../utils/handle-fundamentals.utils";
 import type { UpdateMigration } from "../../types/xata-custom";
+import { isTechnology, isValidTechArray } from "../utils/type-checkers.utils";
+import {
+  difficultySettings,
+  techOrder,
+} from "../constants/Difficulty.constants";
 
 export class CompanyFundamentalsModel {
   #companyFundamentalsRecord: Repository<CompanyFundamentalsRecord>;
@@ -36,31 +41,68 @@ export class CompanyFundamentalsModel {
 
   companyFundamentalActionMap: Record<
     ActionTypeEnum,
-    (id: string, data: any) => Promise<UpdateMigration>
+    (
+      id: string,
+      data: any,
+      difficulty?: DifficultyEnum
+    ) => Promise<UpdateMigration>
   > = {
     [ActionTypeEnum.TURN]: (id, data: IActionTurn) => this.handleTurn(id, data),
-    [ActionTypeEnum.RESEARCH]: (id, data: IActionResearch) =>
-      this.handleResearch(id, data),
-    [ActionTypeEnum.INVEST]: (id, data: IActionInvest) =>
-      this.handleInvest(id, data),
-    [ActionTypeEnum.ACQUIRE]: (id, data: IActionAcquire) =>
-      this.handleAcquire(id, data),
-    [ActionTypeEnum.EXPAND]: (id, data: IActionExpand) =>
-      this.handleExpand(id, data),
-    [ActionTypeEnum.MARKETING]: (id, data: IActionMarketing) =>
-      this.handleMarketing(id, data),
-    [ActionTypeEnum.DONATE]: (id, data: IActionDonate) =>
-      this.handleDonate(id, data),
-    [ActionTypeEnum.PAY_FINE]: (id, data: IActionPayFine) =>
-      this.handlePayFine(id, data),
-    [ActionTypeEnum.BRIBE]: (id, data: IActionBribe) =>
-      this.handleBribe(id, data),
-    [ActionTypeEnum.ASSASSINATION]: (id, data: IActionAssassination) =>
-      this.handleAssassination(id, data),
-    [ActionTypeEnum.LOBBY]: (id, data: IActionLobby) =>
-      this.handleLobby(id, data),
-    [ActionTypeEnum.GO_PUBLIC]: (id, data: IActionGoPublic) =>
-      this.handleGoPublic(id, data),
+    [ActionTypeEnum.RESEARCH]: (
+      id,
+      data: IActionResearch,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleResearch(id, data, difficulty),
+    [ActionTypeEnum.INVEST]: (
+      id,
+      data: IActionInvest,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleInvest(id, data, difficulty),
+    [ActionTypeEnum.ACQUIRE]: (
+      id,
+      data: IActionAcquire,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleAcquire(id, data, difficulty),
+    [ActionTypeEnum.EXPAND]: (
+      id,
+      data: IActionExpand,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleExpand(id, data, difficulty),
+    [ActionTypeEnum.MARKETING]: (
+      id,
+      data: IActionMarketing,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleMarketing(id, data, difficulty),
+    [ActionTypeEnum.DONATE]: (
+      id,
+      data: IActionDonate,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleDonate(id, data, difficulty),
+    [ActionTypeEnum.PAY_FINE]: (
+      id,
+      data: IActionPayFine,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handlePayFine(id, data, difficulty),
+    [ActionTypeEnum.BRIBE]: (
+      id,
+      data: IActionBribe,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleBribe(id, data, difficulty),
+    [ActionTypeEnum.ASSASSINATION]: (
+      id,
+      data: IActionAssassination,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleAssassination(id, data, difficulty),
+    [ActionTypeEnum.LOBBY]: (
+      id,
+      data: IActionLobby,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleLobby(id, data, difficulty),
+    [ActionTypeEnum.GO_PUBLIC]: (
+      id,
+      data: IActionGoPublic,
+      difficulty = DifficultyEnum.EASY
+    ) => this.handleGoPublic(id, data, difficulty),
   };
 
   constructor(_root: Root) {
@@ -113,7 +155,11 @@ export class CompanyFundamentalsModel {
    * cash -
    * liabilities +
    */
-  async handleResearch(id: string, data: IActionResearch) {
+  async handleResearch(
+    id: string,
+    data: IActionResearch,
+    difficulty: DifficultyEnum
+  ) {
     const cf = await this.get(id, [
       "technology",
       "expenses",
@@ -122,7 +168,7 @@ export class CompanyFundamentalsModel {
       "company_size",
     ]);
 
-    const handler = new HandleFundamentals(id, "RESEARCH");
+    const handler = new HandleFundamentals(id, "RESEARCH", difficulty);
 
     handler.expenses({
       expenses: cf.expenses,
@@ -130,7 +176,7 @@ export class CompanyFundamentalsModel {
     });
 
     handler.technology({
-      technology: cf.technology,
+      current_tech: cf.technology,
       amount: data.amount,
       tech_payload: data.technology,
     });
@@ -159,7 +205,11 @@ export class CompanyFundamentalsModel {
    * cash - (low for round but increases over time)
    */
 
-  async handleInvest(id: string, data: IActionInvest) {
+  async handleInvest(
+    id: string,
+    data: IActionInvest,
+    difficulty: DifficultyEnum
+  ) {
     const cf = await this.get(id, [
       "technology",
       "assets",
@@ -169,7 +219,48 @@ export class CompanyFundamentalsModel {
       "cash",
     ]);
 
-    const handler = new HandleFundamentals(id, "INVEST");
+    const handler = new HandleFundamentals(id, "INVEST", difficulty);
+
+    if (!isValidTechArray(cf.technology)) {
+      return handler.migration;
+    }
+
+    const tech_payload = cf.technology.find((t) => {
+      const currentIncompleteTechnology =
+        t.unlocked &&
+        t.current_research_turns < t.research_turns_needed &&
+        t.current_research_points < t.research_points_needed;
+
+      console.log(
+        "currentIncompleteTechnology :>> ",
+        currentIncompleteTechnology
+      );
+      if (currentIncompleteTechnology) {
+        return t;
+      }
+
+      const techIndex = techOrder.indexOf(t.id);
+      const nextTech = techOrder[techIndex + 1];
+      console.log("nextTech :>> ", difficultySettings[nextTech][difficulty]);
+      // get tech that is unlocked, under development and incomplete
+      // if no tech exists, move on to the next one
+      // I need a research hierarchy to determine which tech to research next
+      return difficultySettings[nextTech][difficulty];
+    });
+    console.log("tech_payload :>> ", tech_payload);
+
+    if (!isTechnology(tech_payload)) {
+      throw new Error(`No technology found for company with id ${id}`);
+    }
+
+    // split amount between research and assets
+    const split = data.amount / 2;
+
+    handler.technology({
+      current_tech: cf.technology,
+      amount: split,
+      tech_payload: tech_payload.id,
+    });
 
     return handler.migration;
   }
@@ -184,7 +275,11 @@ export class CompanyFundamentalsModel {
    * revenue +
    * net profit +/-
    */
-  async handleAcquire(id: string, data: IActionAcquire) {
+  async handleAcquire(
+    id: string,
+    data: IActionAcquire,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "ACQUIRE");
 
     return handler.migration;
@@ -198,7 +293,11 @@ export class CompanyFundamentalsModel {
    * revenue +/-
    * net profit +/-
    */
-  async handleExpand(id: string, data: IActionExpand) {
+  async handleExpand(
+    id: string,
+    data: IActionExpand,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "EXPAND");
 
     return handler.migration;
@@ -210,7 +309,11 @@ export class CompanyFundamentalsModel {
    * revenue +/-
    * net profit +/-
    */
-  async handleMarketing(id: string, data: IActionMarketing) {
+  async handleMarketing(
+    id: string,
+    data: IActionMarketing,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "MARKETING");
 
     return handler.migration;
@@ -221,7 +324,11 @@ export class CompanyFundamentalsModel {
    * cash -
    * liabilities - (tax write-off)
    */
-  async handleDonate(id: string, data: IActionDonate) {
+  async handleDonate(
+    id: string,
+    data: IActionDonate,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "DONATE");
 
     return handler.migration;
@@ -231,7 +338,11 @@ export class CompanyFundamentalsModel {
    * domestic influence -
    * cash -
    */
-  async handlePayFine(id: string, data: IActionPayFine) {
+  async handlePayFine(
+    id: string,
+    data: IActionPayFine,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "PAY_FINE");
 
     return handler.migration;
@@ -241,7 +352,11 @@ export class CompanyFundamentalsModel {
    * domestic influence +
    * cash -
    */
-  async handleBribe(id: string, data: IActionBribe) {
+  async handleBribe(
+    id: string,
+    data: IActionBribe,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "BRIBE");
 
     return handler.migration;
@@ -252,7 +367,11 @@ export class CompanyFundamentalsModel {
    * foreign influence +/-
    * cash -
    */
-  async handleAssassination(id: string, data: IActionAssassination) {
+  async handleAssassination(
+    id: string,
+    data: IActionAssassination,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "ASSASSINATION");
 
     return handler.migration;
@@ -262,7 +381,11 @@ export class CompanyFundamentalsModel {
    * domestic influence +
    * cash -
    */
-  async handleLobby(id: string, data: IActionLobby) {
+  async handleLobby(
+    id: string,
+    data: IActionLobby,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "LOBBY");
 
     return handler.migration;
@@ -275,7 +398,11 @@ export class CompanyFundamentalsModel {
    * liabilities -
    * stock price +
    */
-  async handleGoPublic(id: string, data: IActionGoPublic) {
+  async handleGoPublic(
+    id: string,
+    data: IActionGoPublic,
+    difficulty: DifficultyEnum
+  ) {
     const handler = new HandleFundamentals(id, "GO_PUBLIC");
 
     return handler.migration;
@@ -320,11 +447,27 @@ export class CompanyFundamentalsModel {
       `);
     }
 
+    const game = await this.root.model.db.game.select(["difficulty"]).getFirst({
+      filter: {
+        company: {
+          company_fundamentals: {
+            id,
+          },
+        },
+      },
+    });
+
+    if (!game) {
+      throw new Error(`Game with company_fundamentals id ${id} not found`);
+    }
+
     const value = ActionTypeEnum[action.type];
 
     const migration = await this.companyFundamentalActionMap[value](
       id,
-      action.data
+      action.data,
+      // @todo - secure this type
+      game?.difficulty as DifficultyEnum
     );
 
     return await this.root.migrations_run([

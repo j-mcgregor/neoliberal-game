@@ -1,13 +1,19 @@
 import type { ITechnology } from "../../types";
 import { isValidTechArray, makeDefaultTechnology } from "./type-checkers.utils";
-import type { ActionTypeEnum, TechnologyEnum } from "..";
+import { DifficultyEnum, type ActionTypeEnum, type TechnologyEnum } from "..";
 import type { UpdateMigration } from "../../types/xata-custom";
+import { difficultySettings } from "../constants/Difficulty.constants";
 
 export class HandleFundamentals {
   migration: UpdateMigration;
   type: keyof typeof ActionTypeEnum;
+  difficulty: DifficultyEnum = DifficultyEnum.EASY;
 
-  constructor(id: string, type: keyof typeof ActionTypeEnum) {
+  constructor(
+    id: string,
+    type: keyof typeof ActionTypeEnum,
+    difficulty?: DifficultyEnum
+  ) {
     this.migration = {
       update: {
         table: "company_fundamentals",
@@ -15,7 +21,12 @@ export class HandleFundamentals {
         id,
       },
     };
+
     this.type = type;
+
+    if (difficulty) {
+      this.difficulty = difficulty;
+    }
   }
 
   expenses({
@@ -37,47 +48,65 @@ export class HandleFundamentals {
   }
 
   technology({
-    technology,
+    current_tech,
     amount,
     tech_payload,
   }: {
-    technology?: ITechnology[];
+    current_tech?: ITechnology[];
     amount?: number;
     tech_payload: keyof typeof TechnologyEnum;
   }): UpdateMigration {
     switch (this.type) {
       case "RESEARCH":
         // return if technology is not an array or amount is not a number
-        if (!Array.isArray(technology) || typeof amount !== "number") {
+        if (!Array.isArray(current_tech) || typeof amount !== "number") {
           return this.migration;
         }
 
         // return if technology is not a valid array
-        if (technology.length && !isValidTechArray(technology)) {
+        if (current_tech.length && !isValidTechArray(current_tech)) {
           return this.migration;
         }
 
-        const techExists = technology.find((tech) => tech.id === tech_payload);
+        const techExists = current_tech.find(
+          (tech) => tech.id === tech_payload
+        );
 
-        // if technology is empty or tech does not exist, add a default technology
-        if (technology.length === 0 || !techExists) {
-          const tech = makeDefaultTechnology(tech_payload, 1000, 10);
-          this.migration.update.fields.technology = [
+        // if current_tech is empty or tech does not exist, add a default current_tech
+        if (current_tech.length === 0 || !techExists) {
+          const { research_points_needed, research_turns_needed, unlocked_at } =
+            difficultySettings[tech_payload][this.difficulty];
+
+          const tech = makeDefaultTechnology(
+            tech_payload,
+            research_points_needed,
+            research_turns_needed
+          );
+
+          this.migration.update.fields.technology = JSON.stringify([
             { ...tech, current_research_points: amount },
-          ] as ITechnology[];
+          ] as ITechnology[]);
         }
 
         // if technology exists, update the current research points and turns
-        if (technology.length && techExists) {
-          const _technology = technology.map((tech) => {
+        if (current_tech.length && techExists) {
+          const _technology = current_tech.map((tech) => {
+            const unlocked =
+              tech.current_research_points >= tech.research_points_needed;
+
+            /**
+             * if unlocked, remaining research points are added to the next technology
+             */
+
             if (tech.id === tech_payload) {
               tech.current_research_points += amount;
               tech.current_research_turns += 1;
+              tech.unlocked = unlocked;
             }
 
             return tech;
           });
-          this.migration.update.fields.technology = _technology;
+          this.migration.update.fields.technology = JSON.stringify(_technology);
         }
     }
 
