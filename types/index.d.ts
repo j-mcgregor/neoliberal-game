@@ -116,6 +116,7 @@ export type Sector =
   | "Education"
   | "Defense"
   | "Space"
+  | "Marketing"
   | "Environmental";
 
 export type Settings = {
