@@ -1,0 +1,13 @@
+{
+  "id": "mig_cr6ab7nh2gtkggfr705g",
+  "parentID": "mig_cql98md7n86ql8ir5hr0",
+  "checksum": "1:f8268b2e36d8cc0e3a9480fa6b3e9583536579e51f9df4ad2becaa5afd881327",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "company_size",
+        "table": "company_fundamentals"
+      }
+    }
+  ]
+}

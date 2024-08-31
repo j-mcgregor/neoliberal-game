@@ -11,7 +11,7 @@ import {
   type DatabaseSchema,
 } from "../xata";
 import type { createAction } from "../lib/actions/create-action";
-import { ActionTypeEnum, DifficultyEnum } from "..";
+import { ActionTypeEnum, DifficultyEnum } from "../../types/enums";
 import type { Root } from "../root";
 import type {
   IActionAcquire,
@@ -30,10 +30,9 @@ import type {
 import { HandleFundamentals } from "../utils/handle-fundamentals.utils";
 import type { UpdateMigration } from "../../types/xata-custom";
 import { isTechnology, isValidTechArray } from "../utils/type-checkers.utils";
-import {
-  difficultySettings,
-  techOrder,
-} from "../constants/Difficulty.constants";
+import { techTree, techVersionList } from "../constants/tech-tree";
+import type { TechAndVersion } from "..";
+import { CompanySize, type TechCard } from "../constants/Difficulty.constants";
 
 export class CompanyFundamentalsModel {
   #companyFundamentalsRecord: Repository<CompanyFundamentalsRecord>;
@@ -128,6 +127,18 @@ export class CompanyFundamentalsModel {
     return cf;
   }
 
+  async selectTech(id: TechAndVersion) {
+    const cf = await this.#companyFundamentalsRecord
+      .select(["technology"])
+      .getFirst({ filter: { id } });
+
+    if (!cf) {
+      throw new Error(`Company Fundamentals with id ${id} not found`);
+    }
+
+    return cf;
+  }
+
   migration_update(
     id: string,
     fields: Partial<EditableData<CompanyFundamentalsRecord>> = {}
@@ -167,6 +178,13 @@ export class CompanyFundamentalsModel {
       "liabilities",
       "company_size",
     ]);
+    if (!data.technology) {
+      throw new Error(`Technology missing from payload`);
+    }
+
+    if (!techVersionList.includes(data.technology)) {
+      throw new Error(`Technology not found in tech tree`);
+    }
 
     const handler = new HandleFundamentals(id, "RESEARCH", difficulty);
 
@@ -226,26 +244,24 @@ export class CompanyFundamentalsModel {
     }
 
     const tech_payload = cf.technology.find((t) => {
-      const currentIncompleteTechnology =
-        t.unlocked &&
-        t.current_research_turns < t.research_turns_needed &&
-        t.current_research_points < t.research_points_needed;
+      const currentIncompleteTechnology = t.in_development;
 
       console.log(
         "currentIncompleteTechnology :>> ",
         currentIncompleteTechnology
       );
+
       if (currentIncompleteTechnology) {
         return t;
       }
 
-      const techIndex = techOrder.indexOf(t.id);
-      const nextTech = techOrder[techIndex + 1];
-      console.log("nextTech :>> ", difficultySettings[nextTech][difficulty]);
+      // const techIndex = techOrder.indexOf(t.id);
+      // const nextTech = techOrder[techIndex + 1];
+      // console.log("nextTech :>> ", difficultySettings[nextTech][difficulty]);
       // get tech that is unlocked, under development and incomplete
       // if no tech exists, move on to the next one
       // I need a research hierarchy to determine which tech to research next
-      return difficultySettings[nextTech][difficulty];
+      // return difficultySettings[nextTech][difficulty];
     });
     console.log("tech_payload :>> ", tech_payload);
 
@@ -473,5 +489,60 @@ export class CompanyFundamentalsModel {
     return await this.root.migrations_run([
       migration as TransactionOperation<DatabaseSchema, keyof DatabaseSchema>,
     ]);
+  }
+
+  /**
+   * choose the technology to research
+   */
+  async selectTechnology(id: string, tech: TechAndVersion) {
+    const cf = await this.get(id, ["technology", "company_size"]);
+
+    if (!cf) {
+      throw new Error(`Company Fundamentals with id ${id} not found`);
+    }
+
+    const in_development = cf.technology.find(
+      (t: TechCard) => t.in_development
+    );
+    const techToSelect: TechCard | undefined = cf.technology.find(
+      (t: TechCard) => t.id === tech
+    );
+
+    const can_select =
+      techToSelect && cf.company_size
+        ? cf.company_size >= techToSelect?.unlocked_at_size &&
+          !techToSelect.in_development
+        : false;
+
+    const migrations: TransactionOperation<
+      DatabaseSchema,
+      keyof DatabaseSchema
+    >[] = [];
+
+    let technology = [...cf.technology];
+
+    if (can_select) {
+      technology = technology.map((t: TechCard) =>
+        t.id === tech ? { ...t, in_development: true } : t
+      );
+    }
+
+    if (in_development) {
+      technology = technology.map((t: TechCard) =>
+        t.id === in_development.id ? { ...t, in_development: false } : t
+      );
+    }
+
+    migrations.push({
+      update: {
+        table: "company_fundamentals",
+        id,
+        fields: {
+          technology: JSON.stringify(technology),
+        },
+      },
+    });
+
+    return await this.root.migrations_run(migrations);
   }
 }

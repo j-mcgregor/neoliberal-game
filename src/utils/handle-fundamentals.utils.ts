@@ -1,8 +1,8 @@
-import type { ITechnology } from "../../types";
-import { isValidTechArray, makeDefaultTechnology } from "./type-checkers.utils";
-import { DifficultyEnum, type ActionTypeEnum, type TechnologyEnum } from "..";
+import { isValidTechArray } from "./type-checkers.utils";
 import type { UpdateMigration } from "../../types/xata-custom";
-import { difficultySettings } from "../constants/Difficulty.constants";
+import { ActionTypeEnum, DifficultyEnum } from "../../types/enums";
+import type { TechCard } from "../constants/Difficulty.constants";
+import type { TechAndVersion } from "..";
 
 export class HandleFundamentals {
   migration: UpdateMigration;
@@ -52,10 +52,12 @@ export class HandleFundamentals {
     amount,
     tech_payload,
   }: {
-    current_tech?: ITechnology[];
+    current_tech?: TechCard[];
     amount?: number;
-    tech_payload: keyof typeof TechnologyEnum;
+    tech_payload: TechAndVersion;
   }): UpdateMigration {
+    console.log("current_tech :>> ", current_tech);
+    console.log("tech_payload :>> ", tech_payload);
     switch (this.type) {
       case "RESEARCH":
         // return if technology is not an array or amount is not a number
@@ -74,39 +76,21 @@ export class HandleFundamentals {
 
         // if current_tech is empty or tech does not exist, add a default current_tech
         if (current_tech.length === 0 || !techExists) {
-          const { research_points_needed, research_turns_needed, unlocked_at } =
-            difficultySettings[tech_payload][this.difficulty];
-
-          const tech = makeDefaultTechnology(
-            tech_payload,
-            research_points_needed,
-            research_turns_needed
-          );
-
-          this.migration.update.fields.technology = JSON.stringify([
-            { ...tech, current_research_points: amount },
-          ] as ITechnology[]);
+          // const { research_points_needed, research_turns_needed, unlocked_at } =
+          //   difficultySettings[tech_payload][this.difficulty];
+          // const tech = makeDefaultTechnology(
+          //   tech_payload,
+          //   research_points_needed,
+          //   research_turns_needed
+          // );
+          // this.migration.update.fields.technology = JSON.stringify([
+          //   { ...tech, current_research_points: amount },
+          // ] as ITechnology[]);
         }
 
         // if technology exists, update the current research points and turns
         if (current_tech.length && techExists) {
-          const _technology = current_tech.map((tech) => {
-            const unlocked =
-              tech.current_research_points >= tech.research_points_needed;
-
-            /**
-             * if unlocked, remaining research points are added to the next technology
-             */
-
-            if (tech.id === tech_payload) {
-              tech.current_research_points += amount;
-              tech.current_research_turns += 1;
-              tech.unlocked = unlocked;
-            }
-
-            return tech;
-          });
-          this.migration.update.fields.technology = JSON.stringify(_technology);
+          // this.migration.update.fields.technology = JSON.stringify(_technology);
         }
     }
 
@@ -145,23 +129,6 @@ export class HandleFundamentals {
           this.migration.update.fields.liabilities = liabilities - amount;
         }
     }
-    return this.migration;
-  }
-
-  companySize({
-    company_size,
-    amount,
-  }: {
-    company_size?: number | null;
-    amount?: number;
-  }): UpdateMigration {
-    switch (this.type) {
-      case "RESEARCH":
-        if (typeof company_size === "number" && typeof amount === "number") {
-          this.migration.update.fields.company_size = company_size + amount;
-        }
-    }
-
     return this.migration;
   }
 }

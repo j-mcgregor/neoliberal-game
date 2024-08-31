@@ -1,6 +1,6 @@
 import { App } from "@j-mcgregor/bun-express";
 import { Root } from "../root";
-import { ActionTypeEnum } from "..";
+import { ActionTypeEnum } from "../../types/enums";
 
 export function companyRoutes(app: App, root: Root) {
   /**

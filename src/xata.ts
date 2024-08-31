@@ -114,7 +114,7 @@ const tables = [
       { name: "debt", type: "float", defaultValue: "0.0" },
       { name: "assets", type: "float", defaultValue: "0.0" },
       { name: "liabilities", type: "float", defaultValue: "0.0" },
-      { name: "company_size", type: "int", defaultValue: "0" },
+      { name: "company_size", type: "int", defaultValue: "1" },
     ],
     revLinks: [{ column: "company_fundamentals", table: "company" }],
   },

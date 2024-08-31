@@ -1,18 +1,18 @@
 import { type TechAndVersion } from "..";
 import type { Sector } from "../../types";
-import type { TechnologyEnum } from "../../types/enums";
+import type { DifficultyEnum, TechnologyEnum } from "../../types/enums";
 
 export enum CompanySize {
-  MICRO = "MICRO",
-  SMALL = "SMALL",
-  MEDIUM = "MEDIUM",
-  LARGE = "LARGE",
-  NATIONAL = "NATIONAL",
-  GLOBAL = "GLOBAL",
-  DOMINANT = "DOMINANT",
-  TOP_100 = "TOP_100",
-  TOP_10 = "TOP_10",
-  MONOPOLY = "MONOPOLY",
+  MICRO = 1,
+  SMALL = 2,
+  MEDIUM = 3,
+  LARGE = 4,
+  NATIONAL = 5,
+  GLOBAL = 6,
+  DOMINANT = 7,
+  TOP_100 = 8,
+  TOP_10 = 9,
+  MONOPOLY = 10,
 }
 
 enum GameSpeed {
@@ -20,13 +20,6 @@ enum GameSpeed {
   NORMAL = 150,
   FAST = 100,
   RAPID = 50,
-}
-
-enum DifficultyEnum {
-  EASY = "easy",
-  NORMAL = "normal",
-  HARD = "hard",
-  REAL_WORLD = "real world",
 }
 
 /**
@@ -70,12 +63,11 @@ export interface TechCard {
    * This is a flag to indicate that the tech is enabled.
    * Turns to true once:
    * - unlocked === true
-   * - in_development === true
    * - research_needed[difficulty].points >= current_research_points
    * @note - action triggered
    */
   enabled: boolean;
-  unlocked_at_size: keyof typeof CompanySize;
+  unlocked_at_size: CompanySize;
   unlocked_by_tech: Array<TechAndVersion>;
   unlocks: Array<TechAndVersion>;
   research_needed: Record<

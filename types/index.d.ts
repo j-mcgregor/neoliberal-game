@@ -1,21 +1,11 @@
-import type { ActionTypeEnum, DifficultyEnum, TechnologyEnum } from "../src";
+import type { TechAndVersion } from "../src";
+import type { TechCard } from "../src/constants/Difficulty.constants";
+import type { ActionTypeEnum, DifficultyEnum, TechnologyEnum } from "./enums";
 
 // the Action could actually be sent in a reducer pattern like Redux
 export interface IAction {
   type: keyof typeof ActionTypeEnum;
   data?: unknown;
-}
-
-export interface ITechnology {
-  id: keyof typeof TechnologyEnum;
-  name: TechnologyEnum;
-  sector: Sector[];
-  research_points_needed: number;
-  research_turns_needed: number;
-  current_research_points: number;
-  current_research_turns: number;
-  unlocked: boolean;
-  // todo - any extra perks that come with the technology
 }
 
 // Define interfaces for each action type
@@ -24,7 +14,7 @@ export interface IActionTurn extends IAction {
 }
 
 export interface IActionResearch extends IAction {
-  technology: keyof typeof TechnologyEnum;
+  technology: TechAndVersion;
   amount: number;
 }
 
@@ -118,15 +108,3 @@ export type Sector =
   | "Space"
   | "Marketing"
   | "Environmental";
-
-export type Settings = {
-  [key in DifficultyEnum]: {
-    unlocked_at: number;
-    research_points_needed: number;
-    research_turns_needed: number;
-  };
-};
-
-export type DifficultySettings = {
-  [key in keyof typeof TechnologyEnum]: Settings;
-};

@@ -3,7 +3,9 @@ import type { Root } from "../root";
 import { v4 as uuidv4 } from "uuid";
 import type { EditableData, Identifiable } from "@xata.io/client";
 import { createAction } from "../lib/actions/create-action";
-import type { DifficultyEnum } from "..";
+import { techTree } from "../constants/tech-tree";
+import type { DifficultyEnum } from "../../types/enums";
+import { CompanySize } from "../constants/Difficulty.constants";
 
 export class GamesController {
   root: Root;
@@ -77,6 +79,8 @@ export class GamesController {
     );
     const companyFundamentals = companyFundamentalsModel?.migration_create({
       id: companyFundamentalsId,
+      technology: JSON.stringify(techTree),
+      company_size: CompanySize.MICRO,
     });
 
     return await this.root.gameModel?.migrations_run([
