@@ -1,6 +1,35 @@
-import { TechnologyEnum } from "../../types/enums";
+import { DifficultyEnum, TechnologyEnum } from "../../types/enums";
 import type { TechCard } from "./Difficulty.constants";
 import { CompanySize } from "./Difficulty.constants";
+
+const MULTIPLIER_PER_TECH_UNLOCKED = 100;
+const MULTIPLIER_PER_SIZE_UNLOCKED = 1000;
+
+function difficultyMultiplier({
+  company_size,
+  unlocks,
+}: {
+  company_size: CompanySize;
+  /**
+   * The number of techs that will be unlocked.
+   * The more techs unlocked, the higher the multiplier.
+   */
+  unlocks: number;
+}): TechCard["research_needed"] {
+  const per_tech = (unlocks + 1) * MULTIPLIER_PER_TECH_UNLOCKED;
+  const per_size = company_size * MULTIPLIER_PER_SIZE_UNLOCKED;
+  console.log(company_size, per_tech, per_size);
+
+  return Object.keys(DifficultyEnum).reduce((acc, difficulty, i) => {
+    // console.log({ points: per_tech + per_size * (i + 1) });
+    acc[difficulty as DifficultyEnum] = {
+      points: per_tech + per_size * (i + 1),
+      turns: 0,
+    };
+
+    return acc;
+  }, {} as TechCard["research_needed"]);
+}
 
 const defaultCard = ({
   id,
@@ -29,26 +58,13 @@ const defaultCard = ({
     unlocked_at_size,
     unlocked_by_tech,
     unlocks,
-    research_needed: {
-      EASY: {
-        points: 0,
-        turns: 0,
-      },
-      NORMAL: {
-        points: 0,
-        turns: 0,
-      },
-      HARD: {
-        points: 0,
-        turns: 0,
-      },
-      REAL_WORLD: {
-        points: 0,
-        turns: 0,
-      },
-    },
+    research_needed: difficultyMultiplier({
+      company_size: unlocked_at_size,
+      unlocks: unlocks.length,
+    }),
     sectors: [],
     bonus: [],
+    research_points: 0,
   } as TechCard;
 };
 

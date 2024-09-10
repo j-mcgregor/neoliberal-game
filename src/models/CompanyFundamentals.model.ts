@@ -178,12 +178,25 @@ export class CompanyFundamentalsModel {
       "liabilities",
       "company_size",
     ]);
+
     if (!data.technology) {
       throw new Error(`Technology missing from payload`);
     }
 
     if (!techVersionList.includes(data.technology)) {
       throw new Error(`Technology not found in tech tree`);
+    }
+
+    const techToResearch = cf.technology.find(
+      (t: TechCard) => t.id === data.technology
+    );
+
+    // console.log("cf.company_size :>> ", cf.company_size);
+    // console.log("techToResearch :>> ", techToResearch);
+
+    // tech to research must be available
+    if (cf.company_size && cf.company_size < techToResearch?.unlocked_at_size) {
+      throw new Error(`Technology not available for research`);
     }
 
     const handler = new HandleFundamentals(id, "RESEARCH", difficulty);
@@ -194,7 +207,7 @@ export class CompanyFundamentalsModel {
     });
 
     handler.technology({
-      current_tech: cf.technology,
+      current_tech: cf.technology as TechCard[],
       amount: data.amount,
       tech_payload: data.technology,
     });
@@ -254,16 +267,7 @@ export class CompanyFundamentalsModel {
       if (currentIncompleteTechnology) {
         return t;
       }
-
-      // const techIndex = techOrder.indexOf(t.id);
-      // const nextTech = techOrder[techIndex + 1];
-      // console.log("nextTech :>> ", difficultySettings[nextTech][difficulty]);
-      // get tech that is unlocked, under development and incomplete
-      // if no tech exists, move on to the next one
-      // I need a research hierarchy to determine which tech to research next
-      // return difficultySettings[nextTech][difficulty];
     });
-    console.log("tech_payload :>> ", tech_payload);
 
     if (!isTechnology(tech_payload)) {
       throw new Error(`No technology found for company with id ${id}`);
@@ -273,7 +277,7 @@ export class CompanyFundamentalsModel {
     const split = data.amount / 2;
 
     handler.technology({
-      current_tech: cf.technology,
+      current_tech: cf.technology as TechCard[],
       amount: split,
       tech_payload: tech_payload.id,
     });

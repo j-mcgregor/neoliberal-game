@@ -1,6 +1,7 @@
 import type {
   AssassinationEnum,
   BribeTypeEnum,
+  DifficultyEnum,
   NaturalDisasterTypeEnum,
   PoliticalPersuasionEnum,
   TechnologyEnum,
@@ -35,7 +36,7 @@ export interface ICountry {
   // 0 - 100% - at 100%, any proposal selected will go through, eg deregulation
   // At 100%, a country is 'conquered'
   influence: number;
-  starting_difficulty: "easy" | "normal" | "hard" | "real world";
+  starting_difficulty: DifficultyEnum;
 }
 
 /*

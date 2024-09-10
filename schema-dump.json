@@ -1,4 +1,3 @@
-✨ A newer version of @xata.io/client is now available: 0.30.0. You are currently using version: 0.29.5
 {
   "tables": [
     {
@@ -39,6 +38,11 @@
           "name": "score_factor",
           "type": "float",
           "defaultValue": "1.01"
+        },
+        {
+          "name": "difficulty",
+          "type": "text",
+          "defaultValue": "EASY"
         }
       ]
     },
@@ -83,6 +87,13 @@
           "name": "company_type",
           "type": "string",
           "defaultValue": "manufacturing"
+        },
+        {
+          "name": "company_fundamentals",
+          "type": "link",
+          "link": {
+            "table": "company_fundamentals"
+          }
         }
       ],
       "revLinks": [
@@ -275,6 +286,87 @@
         {
           "column": "economy",
           "table": "world"
+        }
+      ]
+    },
+    {
+      "name": "company_fundamentals",
+      "columns": [
+        {
+          "name": "domestic_influence",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "foreign_influence",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "technology",
+          "type": "json",
+          "defaultValue": "[]"
+        },
+        {
+          "name": "acquisitions",
+          "type": "json",
+          "defaultValue": "[]"
+        },
+        {
+          "name": "stock_price",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "shares_outstanding",
+          "type": "int",
+          "defaultValue": "0"
+        },
+        {
+          "name": "net_profit",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        {
+          "name": "revenue",
+          "type": "float",
+          "defaultValue": "0"
+        },
+        {
+          "name": "expenses",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "cash",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "debt",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "assets",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "liabilities",
+          "type": "float",
+          "defaultValue": "0.0"
+        },
+        {
+          "name": "company_size",
+          "type": "int",
+          "defaultValue": "1"
+        }
+      ],
+      "revLinks": [
+        {
+          "column": "company_fundamentals",
+          "table": "company"
         }
       ]
     }

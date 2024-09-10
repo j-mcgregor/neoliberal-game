@@ -77,13 +77,14 @@ export class GamesController {
     const companyFundamentalsModel = this.root.getModel(
       "CompanyFundamentalsModel"
     );
+    console.log("techTree :>> ", techTree);
     const companyFundamentals = companyFundamentalsModel?.migration_create({
       id: companyFundamentalsId,
       technology: JSON.stringify(techTree),
       company_size: CompanySize.MICRO,
     });
 
-    return await this.root.gameModel?.migrations_run([
+    const migrations = await this.root.gameModel?.migrations_run([
       companyFundamentals,
       country,
       company,
@@ -92,6 +93,17 @@ export class GamesController {
       world,
       game,
     ]);
+
+    return {
+      migrations,
+      countryId,
+      companyId,
+      companyFundamentalsId,
+      environmentId,
+      worldId,
+      economyId,
+      gameId,
+    };
   }
 
   async update(body: Partial<EditableData<GameRecord>> & Identifiable) {

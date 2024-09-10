@@ -1,0 +1,13 @@
+{
+  "id": "mig_cr9p55cb6en8psfmqveg",
+  "parentID": "mig_cr8vtf661uudupnf9co0",
+  "checksum": "1:89542a5b387cd690cdc57eb3f522cd453b6f783823b13d2161e607d29d7d37a9",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "difficulty",
+        "table": "game"
+      }
+    }
+  ]
+}

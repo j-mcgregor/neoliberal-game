@@ -265,4 +265,11 @@ export class Root {
       console.log("error :>> ", error);
     }
   }
+
+  async reset(body: any) {
+    await this.dropDatabase();
+    const response = await this.gameController.create(body);
+
+    return response;
+  }
 }

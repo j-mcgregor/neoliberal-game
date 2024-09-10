@@ -81,6 +81,7 @@ export interface TechCard {
       turns: number;
     }
   >;
+  research_points: number;
   /**
    * The bonus property is a placeholder for any extra perks that come with the technology.
    * They will be sent along with the action.

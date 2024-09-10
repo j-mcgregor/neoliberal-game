@@ -48,50 +48,59 @@ export class HandleFundamentals {
   }
 
   technology({
-    current_tech,
     amount,
+    current_tech,
     tech_payload,
   }: {
-    current_tech?: TechCard[];
     amount?: number;
+    current_tech: TechCard[];
     tech_payload: TechAndVersion;
   }): UpdateMigration {
-    console.log("current_tech :>> ", current_tech);
-    console.log("tech_payload :>> ", tech_payload);
     switch (this.type) {
       case "RESEARCH":
-        // return if technology is not an array or amount is not a number
-        if (!Array.isArray(current_tech) || typeof amount !== "number") {
+        if (!amount) {
           return this.migration;
         }
+        const technology: TechCard[] = current_tech.map((tech) => {
+          if (tech.id === tech_payload) {
+            const required_research_points =
+              tech.research_needed[this.difficulty].points;
+            const current_research_points = tech.research_points;
+            const difference =
+              required_research_points - current_research_points;
+            const remaining = amount - difference;
 
-        // return if technology is not a valid array
-        if (current_tech.length && !isValidTechArray(current_tech)) {
-          return this.migration;
-        }
+            // amount will unlock the tech
+            const can_enable = amount >= difference;
+            const points_to_carry_over = can_enable ? remaining : 0;
 
-        const techExists = current_tech.find(
-          (tech) => tech.id === tech_payload
-        );
+            // console.log({
+            //   tech_payload,
+            //   required_research_points,
+            //   current_research_points,
+            //   difference,
+            //   remaining,
+            //   amount,
+            //   can_enable,
+            //   points_to_carry_over,
+            // });
 
-        // if current_tech is empty or tech does not exist, add a default current_tech
-        if (current_tech.length === 0 || !techExists) {
-          // const { research_points_needed, research_turns_needed, unlocked_at } =
-          //   difficultySettings[tech_payload][this.difficulty];
-          // const tech = makeDefaultTechnology(
-          //   tech_payload,
-          //   research_points_needed,
-          //   research_turns_needed
-          // );
-          // this.migration.update.fields.technology = JSON.stringify([
-          //   { ...tech, current_research_points: amount },
-          // ] as ITechnology[]);
-        }
+            if (can_enable) {
+              tech.enabled = true;
+              tech.in_development = false;
+              tech.research_points = required_research_points;
 
-        // if technology exists, update the current research points and turns
-        if (current_tech.length && techExists) {
-          // this.migration.update.fields.technology = JSON.stringify(_technology);
-        }
+              // dispatch (with remaining research points if any)
+            } else {
+              tech.research_points = current_research_points + amount;
+            }
+            // console.log("tech :>> ", tech);
+          }
+
+          return tech;
+        });
+
+        this.migration.update.fields.technology = JSON.stringify(technology);
     }
 
     return this.migration;

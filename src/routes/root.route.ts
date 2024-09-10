@@ -11,4 +11,27 @@ export function rootRoutes(app: App, root: Root) {
       return Response.json({ message: String(error) }, { status: 500 });
     }
   });
+
+  app.post("/reset", async (request, server, params) => {
+    try {
+      const body = await request.json();
+
+      if (!body.company_name || !body.starting_country) {
+        return Response.json(
+          {
+            message: "Company and country are required",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+
+      const game = await root.reset(body);
+
+      return Response.json({ game });
+    } catch (error) {
+      return Response.json({ message: String(error) }, { status: 500 });
+    }
+  });
 }
